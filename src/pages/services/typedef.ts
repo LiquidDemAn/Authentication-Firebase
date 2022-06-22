@@ -1,5 +1,5 @@
 export type UserStateType = {
-	email: null;
-	token: null;
-	id: null;
+	email: null | string;
+	token: null | string;
+	id: null | string;
 };

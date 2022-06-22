@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
 type Props = {
-	title: 'string';
-	handleClick: () => void;
+	title: string;
+	handleClick: (email: string, password: string) => void;
 };
 
 export const Form = ({ title, handleClick }: Props) => {
@@ -18,7 +18,13 @@ export const Form = ({ title, handleClick }: Props) => {
 				placeholder='password'
 				required
 			/>
-			<button onClick={handleClick}>{title}</button>
+			<button
+				onClick={() =>
+					handleClick(emailRef.current!.value, passwordRef.current!.value)
+				}
+			>
+				{title}
+			</button>
 		</div>
 	);
 };
