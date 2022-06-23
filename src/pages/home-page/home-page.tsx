@@ -1,12 +1,26 @@
 import { Navigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/use-auth';
+import { useAppDispatch } from '../../store/hooks';
+import { removeUser } from '../services/user.slice';
 
 export const HomePage = () => {
-	const shouldRedirect = true;
+	const { isAuth, email } = useAuth();
+	const dispatch = useAppDispatch();
+	const logOut = () => {
+		dispatch(removeUser());
+	};
 
 	return (
 		<>
 			<h1>home-page</h1>
-      {/* {shouldRedirect && <Navigate replace to='/login' />} */}
+
+			{isAuth ? (
+				<p>
+					Welcome {email} <button onClick={logOut}>Sign out</button>
+				</p>
+			) : (
+				<Navigate to='login' replace />
+			)}
 		</>
 	);
 };

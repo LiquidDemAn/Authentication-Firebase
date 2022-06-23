@@ -22,16 +22,7 @@ export const RegisterPage = () => {
 						})
 					);
 				});
-				navigate('/', { replace: true });
-				/* used accessToken with ignore */
-				// dispatch(
-				// 	setUser({
-				// 		email: user.email,
-				// 		id: user.uid,
-				// 		// @ts-ignore
-				// 		token: user.accessToken,
-				// 	})
-				// );
+				navigate('/');
 			})
 			.catch((error) => {
 				const errorCode = error.code;
