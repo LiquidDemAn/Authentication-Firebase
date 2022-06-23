@@ -34,9 +34,12 @@ export const RegisterPage = () => {
 
 	return (
 		<>
-			<h1>Register</h1>
-
-			<FormComponent title='Sign up' handleClick={handleRegister} />
+			<FormComponent
+				title='Register'
+				formId='register'
+				btnName='Sign up'
+				handleClick={handleRegister}
+			/>
 
 			<p>
 				Alreadey have an account? <Link to='/login'>Sign In</Link>

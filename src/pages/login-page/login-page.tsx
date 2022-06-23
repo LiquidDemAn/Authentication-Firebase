@@ -35,13 +35,15 @@ export const LoginPage = () => {
 
 	return (
 		<Wrapper>
-			<h1>Login</h1>
-
-			<FormComponent title='Sign in' handleClick={handleLogin} />
-
-			<p>
-				Or <Link to='/register'>register</Link>
-			</p>
+			<FormComponent
+				formId='login'
+				title='Login to your account'
+				btnName='Login now'
+				handleClick={handleLogin}
+			/>
+			<span>
+				Don't have an account? <Link to='/register'>Sign Up</Link>
+			</span>
 		</Wrapper>
 	);
 };
