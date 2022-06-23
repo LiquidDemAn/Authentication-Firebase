@@ -3,6 +3,7 @@ import { Form } from '../../components/form';
 import { useAppDispatch } from '../../store/hooks';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { setUser } from '../services/user.slice';
+import { Wrapper } from '../../components/wrapper';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ export const LoginPage = () => {
 	};
 
 	return (
-		<>
+		<Wrapper>
 			<h1>Login</h1>
 
 			<Form title='Sign in' handleClick={handleLogin} />
@@ -41,6 +42,6 @@ export const LoginPage = () => {
 			<p>
 				Or <Link to='/register'>register</Link>
 			</p>
-		</>
+		</Wrapper>
 	);
 };

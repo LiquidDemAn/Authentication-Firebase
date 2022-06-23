@@ -1,0 +1,26 @@
+.wrapper {
+	display: flex;
+	// align-items: center;
+	height: 100vh;
+}
+
+.wrapper__image {
+	display: block;
+	width: 50%;
+	height: auto;
+	background-image: url('../../images/mountains.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: inherit;
+}
+
+.wrapper__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+	max-width: 350px;
+    margin: 0 auto;
+}
