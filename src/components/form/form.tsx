@@ -1,4 +1,3 @@
-import './form.scss';
 import { useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
@@ -20,22 +19,22 @@ export const FormComponent = ({
 
 	return (
 		<Form>
-			{title && <h2 className='form__title'>{title}</h2>}
+			{title && <h2 className='fw-bold fs-30 mb-4'>{title}</h2>}
 
-			<Form.Group className='form-group' controlId='formEmail'>
+			<Form.Group className='mb-3' controlId='formEmail'>
 				<Form.Label>Email address</Form.Label>
 				<Form.Control
-					className='form-group__control'
+					className='p-2'
 					type='email'
 					ref={emailRef}
 					placeholder='Enter email'
 					required
 				/>
 			</Form.Group>
-			<Form.Group className='form-group' controlId='formPassword'>
+			<Form.Group className='mb-3' controlId='formPassword'>
 				<Form.Label>Password</Form.Label>
 				<Form.Control
-					className='form-group__control'
+					className='p-2'
 					type='password'
 					ref={passwordRef}
 					placeholder='Password'
@@ -44,22 +43,20 @@ export const FormComponent = ({
 			</Form.Group>
 
 			{formId === 'login' && (
-				<div className='form-settings'>
+				<div className='d-flex justify-content-between mt-3 mb-3'>
 					<Form.Group
-						className='form-settings__remember'
+						className='d-flex cursor-pointer gap-2'
 						controlId='formRemeber'
 					>
 						<Form.Check type='checkbox' />
 						<Form.Label>Remember me</Form.Label>
 					</Form.Group>
-					<a className='form-settings__forgot' href='/'>
-						Forgot password?
-					</a>
+					<a href='/'>Forgot password?</a>
 				</div>
 			)}
 
 			<Button
-				className='form__btn'
+				className='w-100 mb-4'
 				variant='success'
 				onClick={() =>
 					handleClick(emailRef.current!.value, passwordRef.current!.value)
