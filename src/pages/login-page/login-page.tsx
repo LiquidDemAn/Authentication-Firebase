@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Form } from '../../components/form';
+import { FormComponent } from '../../components/form';
 import { useAppDispatch } from '../../store/hooks';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { setUser } from '../services/user.slice';
@@ -37,7 +37,7 @@ export const LoginPage = () => {
 		<Wrapper>
 			<h1>Login</h1>
 
-			<Form title='Sign in' handleClick={handleLogin} />
+			<FormComponent title='Sign in' handleClick={handleLogin} />
 
 			<p>
 				Or <Link to='/register'>register</Link>
