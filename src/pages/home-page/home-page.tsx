@@ -6,7 +6,7 @@ export const HomePage = () => {
 	return (
 		<>
 			<h1>home-page</h1>
-      {shouldRedirect && <Navigate replace to='/login' />}
+      {/* {shouldRedirect && <Navigate replace to='/login' />} */}
 		</>
 	);
 };
