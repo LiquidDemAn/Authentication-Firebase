@@ -1,12 +1,16 @@
 import './form.scss';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-
+import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
 type Props = {
 	formId: 'login' | 'register';
 	title?: string;
 	btnName: string;
-	handleClick: (email: string, password: string) => void;
+	handleClick: (
+		event: React.FormEvent<HTMLButtonElement>,
+		email: string,
+		password: string
+	) => void;
 };
 
 export const FormComponent = ({
@@ -17,6 +21,11 @@ export const FormComponent = ({
 }: Props) => {
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
+	const [showPassword, setShowPassword] = useState(false);
+
+	const togglePassword = () => {
+		setShowPassword(!showPassword);
+	};
 
 	return (
 		<Form>
@@ -32,15 +41,31 @@ export const FormComponent = ({
 					required
 				/>
 			</Form.Group>
-			<Form.Group className='form-group' controlId='formPassword'>
+			<Form.Group className='form-group form-password' controlId='formPassword'>
 				<Form.Label>Password</Form.Label>
-				<Form.Control
-					className='form-group__control'
-					type='password'
-					ref={passwordRef}
-					placeholder='Password'
-					required
-				/>
+				<div className='form-password__input-wrapper'>
+					<Form.Control
+						autoComplete='on'
+						className='form-group__control'
+						type={showPassword ? 'text' : 'password'}
+						ref={passwordRef}
+						placeholder='Password'
+						required
+					/>
+					{showPassword ? (
+						<IoEyeOffSharp
+							onClick={togglePassword}
+							size={20}
+							className='form-password__icon'
+						/>
+					) : (
+						<IoEyeSharp
+							onClick={togglePassword}
+							size={20}
+							className='form-password__icon'
+						/>
+					)}
+				</div>
 			</Form.Group>
 
 			{formId === 'login' && (
@@ -59,10 +84,15 @@ export const FormComponent = ({
 			)}
 
 			<Button
+				type='submit'
 				className='form__btn'
 				variant='success'
-				onClick={() =>
-					handleClick(emailRef.current!.value, passwordRef.current!.value)
+				onClick={(event) =>
+					handleClick(
+						event,
+						emailRef.current!.value,
+						passwordRef.current!.value
+					)
 				}
 			>
 				{btnName}

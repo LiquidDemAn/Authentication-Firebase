@@ -3,16 +3,17 @@ import { FormComponent } from '../../components/form';
 import { useAppDispatch } from '../../store/hooks';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { setUser } from '../services/user.slice';
+import { Wrapper } from '../../components/wrapper';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const handleRegister = (email: string, password: string) => {
+	const handleRegister = (event: React.FormEvent<HTMLButtonElement>, email: string, password: string) => {
 		const auth = getAuth();
+		event.preventDefault();
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
-				/* used getIdToken for get user token */
 				user.getIdToken().then((token) => {
 					dispatch(
 						setUser({
@@ -33,7 +34,7 @@ export const RegisterPage = () => {
 	};
 
 	return (
-		<>
+		<Wrapper>
 			<FormComponent
 				title='Register'
 				formId='register'
@@ -44,6 +45,6 @@ export const RegisterPage = () => {
 			<p>
 				Alreadey have an account? <Link to='/login'>Sign In</Link>
 			</p>
-		</>
+		</Wrapper>
 	);
 };

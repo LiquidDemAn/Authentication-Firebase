@@ -9,11 +9,12 @@ export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const handleLogin = (email: string, password: string) => {
+	const handleLogin = (event: React.FormEvent<HTMLButtonElement>, email: string, password: string) => {
 		const auth = getAuth();
+		event.preventDefault();
+		
 		signInWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
-				/* used getIdToken for get user token */
 				user.getIdToken().then((token) => {
 					dispatch(
 						setUser({
