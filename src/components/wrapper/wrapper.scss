@@ -1,15 +1,25 @@
 .wrapper {
 	display: flex;
 	height: 100vh;
+	padding: 0 15px;
+
+	@media (min-width: 768px) {
+		padding: 0;
+	}
 }
 
 .wrapper__image {
+	display: none;
 	width: 50%;
 	background-image: url('../../images/mountains.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-attachment: inherit;
+
+	@media (min-width: 768px) {
+		display: block;
+	}
 }
 
 .wrapper__content {
