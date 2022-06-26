@@ -2,17 +2,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FormComponent } from '../../components/form';
 import { useAppDispatch } from '../../store/hooks';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { setUser } from '../services/user.slice';
+import { setError, setUser } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
+import { ErrorsEnum } from '../services/typedef';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const handleLogin = (event: React.FormEvent<HTMLButtonElement>, email: string, password: string) => {
+	const handleLogin = (
+		event: React.FormEvent<HTMLButtonElement>,
+		email: string,
+		password: string
+	) => {
 		const auth = getAuth();
 		event.preventDefault();
-		
+
 		signInWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
 				user.getIdToken().then((token) => {
@@ -27,10 +32,9 @@ export const LoginPage = () => {
 				navigate('/');
 			})
 			.catch((error) => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				console.log(errorMessage);
+				const errorCode: ErrorsEnum = error.code;
 				console.log(errorCode);
+				dispatch(setError(errorCode));
 			});
 	};
 
