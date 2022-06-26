@@ -1,8 +1,9 @@
 import './form.scss';
+import '../../common.scss';
 import { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
 import { ErrorsEnum } from '../../pages/services/typedef';
+import { Password } from '../password';
 type Props = {
 	formId: 'login' | 'register';
 	title?: string;
@@ -24,14 +25,7 @@ export const FormComponent = ({
 }: Props) => {
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
-	const [showPassword, setShowPassword] = useState(false);
-
-	const togglePassword = () => {
-		setShowPassword(!showPassword);
-	};
-
-	console.log(error);
-
+	
 	return (
 		<Form>
 			{title && <h2 className='form__title'>{title}</h2>}
@@ -39,7 +33,6 @@ export const FormComponent = ({
 			<Form.Group className='form-group' controlId='formEmail'>
 				<Form.Label>Email address</Form.Label>
 				<Form.Control
-					// className='form-group__control'
 					className={`form-group__control ${
 						error === ErrorsEnum.EmailError && 'form-group__control_border-red'
 					}`}
@@ -52,42 +45,7 @@ export const FormComponent = ({
 					<span className='form-group__error-text'>Wrong Email!</span>
 				)}
 			</Form.Group>
-			<Form.Group className='form-group form-password' controlId='formPassword'>
-				<Form.Label>Password</Form.Label>
-				<div className='form-password__input-wrapper'>
-					<Form.Control
-						autoComplete='on'
-						className={`form-group__control 
-						${
-							(error === ErrorsEnum.PasswordError ||
-								error === ErrorsEnum.InternalError) &&
-							'form-group__control_border-red'
-						}
-						`}
-						type={showPassword ? 'text' : 'password'}
-						ref={passwordRef}
-						placeholder='Password'
-						required
-					/>
-					{(error === ErrorsEnum.PasswordError ||
-						error === ErrorsEnum.InternalError) && (
-						<span className='form-group__error-text'>Wrong Password!</span>
-					)}
-					{showPassword ? (
-						<IoEyeOffSharp
-							onClick={togglePassword}
-							size={20}
-							className='form-password__icon'
-						/>
-					) : (
-						<IoEyeSharp
-							onClick={togglePassword}
-							size={20}
-							className='form-password__icon'
-						/>
-					)}
-				</div>
-			</Form.Group>
+			<Password error={error} passwordRef={passwordRef} />
 
 			{formId === 'login' && (
 				<div className='form-settings'>
