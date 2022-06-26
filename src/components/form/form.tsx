@@ -1,9 +1,10 @@
 import './form.scss';
 import '../../common.scss';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { ErrorsEnum } from '../../pages/services/typedef';
 import { Password } from '../password';
+import { Email } from '../email';
 type Props = {
 	formId: 'login' | 'register';
 	title?: string;
@@ -25,26 +26,11 @@ export const FormComponent = ({
 }: Props) => {
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
-	
+
 	return (
 		<Form>
 			{title && <h2 className='form__title'>{title}</h2>}
-
-			<Form.Group className='form-group' controlId='formEmail'>
-				<Form.Label>Email address</Form.Label>
-				<Form.Control
-					className={`form-group__control ${
-						error === ErrorsEnum.EmailError && 'form-group__control_border-red'
-					}`}
-					type='email'
-					ref={emailRef}
-					placeholder='Enter email'
-					required
-				/>
-				{error === ErrorsEnum.EmailError && (
-					<span className='form-group__error-text'>Wrong Email!</span>
-				)}
-			</Form.Group>
+			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />
 
 			{formId === 'login' && (
