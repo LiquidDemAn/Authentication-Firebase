@@ -1,15 +1,22 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FormComponent } from '../../components/form';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { setUser } from '../services/user.slice';
+import { setUser, setError } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
+import { getError } from '../services/selectors';
+import { ErrorsEnum } from '../services/typedef';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const error = useAppSelector(getError);
 
-	const handleRegister = (event: React.FormEvent<HTMLButtonElement>, email: string, password: string) => {
+	const handleRegister = (
+		event: React.FormEvent<HTMLButtonElement>,
+		email: string,
+		password: string
+	) => {
 		const auth = getAuth();
 		event.preventDefault();
 		createUserWithEmailAndPassword(auth, email, password)
@@ -26,16 +33,16 @@ export const RegisterPage = () => {
 				navigate('/');
 			})
 			.catch((error) => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				console.log(errorMessage);
+				const errorCode: ErrorsEnum = error.code;
 				console.log(errorCode);
+				dispatch(setError(errorCode));
 			});
 	};
 
 	return (
 		<Wrapper>
 			<FormComponent
+				error={error}
 				title='Register'
 				formId='register'
 				btnName='Sign up'

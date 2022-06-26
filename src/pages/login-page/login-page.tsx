@@ -1,14 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FormComponent } from '../../components/form';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { setError, setUser } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
 import { ErrorsEnum } from '../services/typedef';
+import { getError } from '../services/selectors';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const error = useAppSelector(getError);
 
 	const handleLogin = (
 		event: React.FormEvent<HTMLButtonElement>,
@@ -41,6 +43,7 @@ export const LoginPage = () => {
 	return (
 		<Wrapper>
 			<FormComponent
+				error={error}
 				formId='login'
 				title='Login to your account'
 				btnName='Login now'
