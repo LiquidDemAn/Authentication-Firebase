@@ -16,11 +16,13 @@ export const userSlice = createSlice({
 			state.email = payload.email;
 			state.id = payload.id;
 			state.token = payload.token;
+			state.error = null;
 		},
 		removeUser(state) {
 			state.email = null;
 			state.id = null;
 			state.token = null;
+			state.error = null;
 		},
 		setError(state, { payload }: PayloadAction<ErrorsEnum>) {
 			state.error = payload;

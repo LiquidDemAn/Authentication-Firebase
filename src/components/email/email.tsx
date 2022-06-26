@@ -1,4 +1,3 @@
-import './email.scss';
 import '../../common.scss';
 import { MutableRefObject } from 'react';
 import { ErrorsEnum } from '../../pages/services/typedef';

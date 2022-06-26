@@ -5,6 +5,8 @@ import { Button, Form } from 'react-bootstrap';
 import { ErrorsEnum } from '../../pages/services/typedef';
 import { Password } from '../password';
 import { Email } from '../email';
+import { FormAdd } from '../form-add';
+
 type Props = {
 	formId: 'login' | 'register';
 	title?: string;
@@ -14,7 +16,7 @@ type Props = {
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
 		password: string
-	) => void;
+	) => void
 };
 
 export const FormComponent = ({
@@ -28,26 +30,11 @@ export const FormComponent = ({
 	const passwordRef = useRef<HTMLInputElement | null>(null);
 
 	return (
-		<Form>
+		<Form id={formId}>
 			{title && <h2 className='form__title'>{title}</h2>}
 			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />
-
-			{formId === 'login' && (
-				<div className='form-settings'>
-					<Form.Group
-						className='form-settings__remember'
-						controlId='formRemeber'
-					>
-						<Form.Check type='checkbox' />
-						<Form.Label>Remember me</Form.Label>
-					</Form.Group>
-					<a className='form-settings__forgot' href='/'>
-						Forgot password?
-					</a>
-				</div>
-			)}
-
+			{formId === 'login' && <FormAdd />}
 			<Button
 				type='submit'
 				className='form__btn'
