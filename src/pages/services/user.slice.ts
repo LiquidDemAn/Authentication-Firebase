@@ -24,7 +24,7 @@ export const userSlice = createSlice({
 			state.token = null;
 			state.error = null;
 		},
-		setError(state, { payload }: PayloadAction<ErrorsEnum>) {
+		setError(state, { payload }: PayloadAction<ErrorsEnum | null>) {
 			state.error = payload;
 		},
 	},
