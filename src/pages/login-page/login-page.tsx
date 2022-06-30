@@ -1,23 +1,39 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FormComponent } from '../../components/form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+	getAuth,
+	signInWithEmailAndPassword,
+	onAuthStateChanged,
+} from 'firebase/auth';
 import { setError, setUser } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
 import { ErrorsEnum } from '../services/typedef';
 import { getError } from '../services/selectors';
+import { useEffect } from 'react';
+import { FirebaseError } from 'firebase/app';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
+	const auth = getAuth();
+
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				console.log(user);
+			} else {
+				console.log(1);
+			}
+		});
+	}, []);
 
 	const handleLogin = (
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
 		password: string
 	) => {
-		const auth = getAuth();
 		event.preventDefault();
 
 		signInWithEmailAndPassword(auth, email, password)
@@ -33,10 +49,10 @@ export const LoginPage = () => {
 				});
 				navigate('/');
 			})
-			.catch((error) => {
-				const errorCode: ErrorsEnum = error.code;
+			.catch((error: FirebaseError) => {
+				const errorCode = error.code;
 				console.log(errorCode);
-				dispatch(setError(errorCode));
+				dispatch(setError(errorCode as ErrorsEnum));
 			});
 	};
 

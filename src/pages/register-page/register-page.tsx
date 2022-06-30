@@ -6,6 +6,7 @@ import { setUser, setError } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
 import { getError } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
+import { FirebaseError } from 'firebase/app';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
@@ -32,10 +33,10 @@ export const RegisterPage = () => {
 				});
 				navigate('/');
 			})
-			.catch((error) => {
-				const errorCode: ErrorsEnum = error.code;
+			.catch((error: FirebaseError) => {
+				const errorCode = error.code;
 				console.log(errorCode);
-				dispatch(setError(errorCode));
+				dispatch(setError(errorCode as ErrorsEnum));
 			});
 	};
 
