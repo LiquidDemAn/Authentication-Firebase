@@ -1,18 +1,39 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FormComponent } from '../../components/form';
-import { useAppDispatch } from '../../store/hooks';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { setUser } from '../services/user.slice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import {
+	getAuth,
+	signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { setError, setUser } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
+import { ErrorsEnum } from '../services/typedef';
+import { getError } from '../services/selectors';
+import { useEffect } from 'react';
+import { FirebaseError } from 'firebase/app';
+import { useAuth } from '../../hooks/use-auth';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const error = useAppSelector(getError);
+	const { isAuth } = useAuth();
 
-	const handleLogin = (event: React.FormEvent<HTMLButtonElement>, email: string, password: string) => {
+	useEffect(() => {
+		console.log('effect');
+		if (isAuth === true) {
+			navigate('/');
+		}
+	}, [isAuth, navigate]);
+
+	const handleLogin = (
+		event: React.FormEvent<HTMLButtonElement>,
+		email: string,
+		password: string
+	) => {
 		const auth = getAuth();
 		event.preventDefault();
-		
+
 		signInWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
 				user.getIdToken().then((token) => {
@@ -26,17 +47,17 @@ export const LoginPage = () => {
 				});
 				navigate('/');
 			})
-			.catch((error) => {
+			.catch((error: FirebaseError) => {
 				const errorCode = error.code;
-				const errorMessage = error.message;
-				console.log(errorMessage);
 				console.log(errorCode);
+				dispatch(setError(errorCode as ErrorsEnum));
 			});
 	};
 
 	return (
 		<Wrapper>
 			<FormComponent
+				error={error}
 				formId='login'
 				title='Login to your account'
 				btnName='Login now'
