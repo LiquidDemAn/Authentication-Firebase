@@ -10,8 +10,13 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { setError } from '../../pages/services/user.slice';
 
+export enum AuthFormIdEnum {
+	Login = 'login',
+	Register = 'register',
+}
+
 type Props = {
-	formId: 'login' | 'register';
+	formId: AuthFormIdEnum;
 	title?: string;
 	btnName: string;
 	error: null | ErrorsEnum;
@@ -50,7 +55,7 @@ export const FormComponent = ({
 			{title && <h2 className='form__title'>{title}</h2>}
 			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />
-			{formId === 'login' && <FormAdd />}
+			{formId === AuthFormIdEnum.Login && <FormAdd />}
 			<Button
 				type='submit'
 				className='form__btn'

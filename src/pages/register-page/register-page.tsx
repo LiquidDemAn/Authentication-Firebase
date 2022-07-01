@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
 import { FormComponent } from '../../components/form';
@@ -8,20 +7,12 @@ import { setUser, setError } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
 import { getError } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
-import { useAuth } from '../../hooks/use-auth';
+import { AuthFormIdEnum } from '../../components/form/form';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
-	const { isAuth } = useAuth();
-
-	useEffect(() => {
-		console.log('effect');
-		if (isAuth === true) {
-			navigate('/');
-		}
-	}, [isAuth, navigate]);
 
 	const handleRegister = (
 		event: React.FormEvent<HTMLButtonElement>,
@@ -55,7 +46,7 @@ export const RegisterPage = () => {
 			<FormComponent
 				error={error}
 				title='Register'
-				formId='register'
+				formId={AuthFormIdEnum.Register}
 				btnName='Sign up'
 				handleClick={handleRegister}
 			/>

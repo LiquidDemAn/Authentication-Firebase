@@ -1,30 +1,18 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FormComponent } from '../../components/form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import {
-	getAuth,
-	signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { setError, setUser } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
 import { ErrorsEnum } from '../services/typedef';
 import { getError } from '../services/selectors';
-import { useEffect } from 'react';
 import { FirebaseError } from 'firebase/app';
-import { useAuth } from '../../hooks/use-auth';
+import { AuthFormIdEnum } from '../../components/form/form';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
-	const { isAuth } = useAuth();
-
-	useEffect(() => {
-		console.log('effect');
-		if (isAuth === true) {
-			navigate('/');
-		}
-	}, [isAuth, navigate]);
 
 	const handleLogin = (
 		event: React.FormEvent<HTMLButtonElement>,
@@ -58,7 +46,7 @@ export const LoginPage = () => {
 		<Wrapper>
 			<FormComponent
 				error={error}
-				formId='login'
+				formId={AuthFormIdEnum.Login}
 				title='Login to your account'
 				btnName='Login now'
 				handleClick={handleLogin}

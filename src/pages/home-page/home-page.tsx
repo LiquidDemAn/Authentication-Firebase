@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import './home-page.scss';
 import { signOut, getAuth } from 'firebase/auth';
 import { Button } from 'react-bootstrap';
@@ -7,7 +8,6 @@ import { useAuth } from '../../hooks/use-auth';
 import { useAppDispatch } from '../../store/hooks';
 import { removeUser } from '../services/user.slice';
 import { FirebaseError } from 'firebase/app';
-import { useEffect } from 'react';
 
 export const HomePage = () => {
 	const { isAuth, email } = useAuth();
