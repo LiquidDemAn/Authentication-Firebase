@@ -8,11 +8,22 @@ import { Wrapper } from '../../components/wrapper';
 import { getError } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
 import { AuthFormIdEnum } from '../../components/form/form';
+import { useAuth } from '../../hooks/use-auth';
+import { useEffect } from 'react';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
+
+	const { isAuth } = useAuth();
+
+	useEffect(() => {
+		if (isAuth === true) {
+			navigate('/');
+		}
+	}, [isAuth, navigate]);
+
 
 	const handleRegister = (
 		event: React.FormEvent<HTMLButtonElement>,

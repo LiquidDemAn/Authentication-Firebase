@@ -8,11 +8,20 @@ import { ErrorsEnum } from '../services/typedef';
 import { getError } from '../services/selectors';
 import { FirebaseError } from 'firebase/app';
 import { AuthFormIdEnum } from '../../components/form/form';
+import { useAuth } from '../../hooks/use-auth';
+import { useEffect } from 'react';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
+	const { isAuth } = useAuth();
+
+	useEffect(() => {
+		if (isAuth === true) {
+			navigate('/');
+		}
+	}, [isAuth, navigate]);
 
 	const handleLogin = (
 		event: React.FormEvent<HTMLButtonElement>,
