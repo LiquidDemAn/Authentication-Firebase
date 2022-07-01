@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
 	getAuth,
 	signInWithEmailAndPassword,
-	onAuthStateChanged,
 } from 'firebase/auth';
 import { setError, setUser } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
@@ -12,28 +11,27 @@ import { ErrorsEnum } from '../services/typedef';
 import { getError } from '../services/selectors';
 import { useEffect } from 'react';
 import { FirebaseError } from 'firebase/app';
+import { useAuth } from '../../hooks/use-auth';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
-	const auth = getAuth();
+	const { isAuth } = useAuth();
 
 	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			if (user) {
-				console.log(user);
-			} else {
-				console.log(1);
-			}
-		});
-	}, []);
+		console.log('effect');
+		if (isAuth === true) {
+			navigate('/');
+		}
+	}, [isAuth, navigate]);
 
 	const handleLogin = (
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
 		password: string
 	) => {
+		const auth = getAuth();
 		event.preventDefault();
 
 		signInWithEmailAndPassword(auth, email, password)

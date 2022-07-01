@@ -9,7 +9,7 @@ export const useAuth = () => {
 	const auth = getAuth();
 	const dispatch = useAppDispatch();
 	const userEmail = useSelector(getUserEmail);
-	const [isAuth, setIsAuth] = useState(true);
+	const [isAuth, setIsAuth] = useState<null | boolean>(null);
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
