@@ -1,8 +1,20 @@
+import './verification.scss';
+import { Button } from 'react-bootstrap';
 import { getUser } from '../../pages/services/selectors';
 import { useAppSelector } from '../../store/hooks';
-import './verification.scss';
+import { LogOutButton } from '../log-out-button';
 
-export const Verification = () => {
+export enum VerificationEnum {
+	Register = 'register',
+	ResetPassword = 'reset-password',
+}
+
+type Props = {
+	type: VerificationEnum;
+	resendHandle: () => void;
+};
+
+export const Verification = ({ type, resendHandle }: Props) => {
 	const user = useAppSelector(getUser);
 
 	return (
@@ -10,10 +22,14 @@ export const Verification = () => {
 			<h3 className='verification__title'>Verification</h3>
 			<span className='verification__email'>{user.email}</span>
 			<p className='verification__descriptionn'>
-				We have sent you an email to confirm your email. If you did not receive
+				We have sent you a letter to confirm your email. If you did not receive
 				the email, please check the "Spam" section or send it again by clicking
-				here
+				"Resend leter"
 			</p>
+			<div className='verification__buttons'>
+				<Button onClick={resendHandle}>Resend leter</Button>
+				{type === VerificationEnum.Register && <LogOutButton />}
+			</div>
 		</div>
 	);
 };
