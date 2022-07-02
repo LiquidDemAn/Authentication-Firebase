@@ -6,6 +6,7 @@ export const getUser = (state: AppState): UserType => {
 		id: state.user.id,
 		email: state.user.email,
 		token: state.user.token,
+		emailVerified: state.user.emailVerified,
 	};
 };
 

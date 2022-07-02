@@ -20,6 +20,7 @@ export const useAuth = () => {
 					setUser({
 						email: user.email,
 						id: user.uid,
+						emailVerified: user.emailVerified,
 						token,
 					})
 				);

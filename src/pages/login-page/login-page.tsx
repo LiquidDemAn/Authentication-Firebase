@@ -37,6 +37,7 @@ export const LoginPage = () => {
 						setUser({
 							email: user.email,
 							id: user.uid,
+							emailVerified: user.emailVerified,
 							token,
 						})
 					);

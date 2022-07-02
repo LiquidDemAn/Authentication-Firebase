@@ -5,6 +5,7 @@ const initialState: UserStateType = {
 	email: null,
 	token: null,
 	id: null,
+	emailVerified: false,
 	isAuth: null,
 	error: null,
 };
@@ -17,6 +18,7 @@ export const userSlice = createSlice({
 			state.email = payload.email;
 			state.id = payload.id;
 			state.token = payload.token;
+			state.emailVerified = payload.emailVerified;
 			state.error = null;
 			state.isAuth = true;
 		},
@@ -24,6 +26,7 @@ export const userSlice = createSlice({
 			state.email = null;
 			state.id = null;
 			state.token = null;
+			state.emailVerified = false;
 			state.error = null;
 			state.isAuth = false;
 		},

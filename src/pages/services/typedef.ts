@@ -2,6 +2,7 @@ export type UserType = {
 	email: null | string;
 	token: null | string;
 	id: null | string;
+	emailVerified: boolean;
 };
 
 export enum ErrorsEnum {
@@ -16,5 +17,6 @@ export type UserStateType = {
 	token: null | string;
 	id: null | string;
 	isAuth: null | boolean;
+	emailVerified: boolean;
 	error: null | ErrorsEnum;
 };

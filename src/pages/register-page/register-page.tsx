@@ -20,10 +20,6 @@ export const RegisterPage = () => {
 	const error = useAppSelector(getError);
 	const isAuth = useAppSelector(getAuthStatus);
 
-	const config = {
-		url: 'localhost:3000',
-	};
-
 	useEffect(() => {
 		if (isAuth === true) {
 			navigate('/');
@@ -45,12 +41,13 @@ export const RegisterPage = () => {
 						setUser({
 							email: user.email,
 							id: user.uid,
+							emailVerified: user.emailVerified,
 							token,
 						})
 					);
 				});
 
-				sendEmailVerification(user!, { url: 'http://localhost:3000/' })
+				sendEmailVerification(user, { url: 'http://localhost:3000/' })
 					.then(() => {
 						console.log('success');
 						navigate('/verification');
