@@ -15,5 +15,6 @@ export type UserStateType = {
 	email: null | string;
 	token: null | string;
 	id: null | string;
+	isAuth: null | boolean;
 	error: null | ErrorsEnum;
 };

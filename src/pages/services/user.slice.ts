@@ -5,6 +5,7 @@ const initialState: UserStateType = {
 	email: null,
 	token: null,
 	id: null,
+	isAuth: null,
 	error: null,
 };
 
@@ -17,17 +18,23 @@ export const userSlice = createSlice({
 			state.id = payload.id;
 			state.token = payload.token;
 			state.error = null;
+			state.isAuth = true;
 		},
 		removeUser(state) {
 			state.email = null;
 			state.id = null;
 			state.token = null;
 			state.error = null;
+			state.isAuth = false;
 		},
 		setError(state, { payload }: PayloadAction<ErrorsEnum | null>) {
 			state.error = payload;
 		},
+		setAuthStatus(state, { payload }: PayloadAction<null | boolean>) {
+			state.isAuth = payload;
+		},
 	},
 });
 
-export const { setUser, removeUser, setError } = userSlice.actions;
+export const { setUser, removeUser, setError, setAuthStatus } =
+	userSlice.actions;

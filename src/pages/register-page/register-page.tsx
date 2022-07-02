@@ -5,25 +5,22 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { setUser, setError } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
-import { getError } from '../services/selectors';
+import { getAuthStatus, getError } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
 import { AuthFormIdEnum } from '../../components/form/form';
-import { useAuth } from '../../hooks/use-auth';
 import { useEffect } from 'react';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
-
-	const { isAuth } = useAuth();
+	const isAuth = useAppSelector(getAuthStatus);
 
 	useEffect(() => {
 		if (isAuth === true) {
 			navigate('/');
 		}
 	}, [isAuth, navigate]);
-
 
 	const handleRegister = (
 		event: React.FormEvent<HTMLButtonElement>,

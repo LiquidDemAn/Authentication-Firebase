@@ -4,13 +4,13 @@ import { signOut, getAuth } from 'firebase/auth';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Wrapper } from '../../components/wrapper';
-import { useAuth } from '../../hooks/use-auth';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { removeUser } from '../services/user.slice';
 import { FirebaseError } from 'firebase/app';
+import { getAuthStatus } from '../services/selectors';
 
 export const HomePage = () => {
-	const { isAuth, email } = useAuth();
+	const isAuth = useAppSelector(getAuthStatus);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const auth = getAuth();
@@ -36,7 +36,7 @@ export const HomePage = () => {
 			<div className='home-page__wrapper'>
 				<h2 className='home-page__title'>Welcome</h2>
 				<div className='home-page__content'>
-					<span className='home-page__email'>{email}</span>
+					<span className='home-page__email'>{auth.currentUser?.email}</span>
 					<Button
 						className='home-page__button'
 						variant='danger'

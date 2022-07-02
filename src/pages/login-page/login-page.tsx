@@ -5,17 +5,16 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { setError, setUser } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
 import { ErrorsEnum } from '../services/typedef';
-import { getError } from '../services/selectors';
+import { getAuthStatus, getError } from '../services/selectors';
 import { FirebaseError } from 'firebase/app';
 import { AuthFormIdEnum } from '../../components/form/form';
-import { useAuth } from '../../hooks/use-auth';
 import { useEffect } from 'react';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
-	const { isAuth } = useAuth();
+	const isAuth = useAppSelector(getAuthStatus);
 
 	useEffect(() => {
 		if (isAuth === true) {

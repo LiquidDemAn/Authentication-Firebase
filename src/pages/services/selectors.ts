@@ -9,6 +9,5 @@ export const getUser = (state: AppState): UserType => {
 	};
 };
 
-export const getUserEmail = (state: AppState) => state.user.email;
-
+export const getAuthStatus = (state: AppState) => state.user.isAuth;
 export const getError = (state: AppState) => state.user.error;
