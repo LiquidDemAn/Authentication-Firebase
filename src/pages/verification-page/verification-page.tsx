@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setError } from '../services/user.slice';
 import { ErrorsEnum } from '../services/typedef';
 import { useAppSelector } from '../../store/hooks';
-import { getAuthStatus } from '../services/selectors';
+import { getAuthStatus, getEmailVerifiedStatus } from '../services/selectors';
 import { useNavigate } from 'react-router-dom';
 
 export const VerificationPage = () => {
@@ -17,6 +17,7 @@ export const VerificationPage = () => {
 	const auth = getAuth();
 	const user = auth.currentUser;
 	const isAuth = useAppSelector(getAuthStatus);
+	const verified = useAppSelector(getEmailVerifiedStatus);
 
 	useEffect(() => {
 		if (isAuth === false) {
@@ -41,6 +42,7 @@ export const VerificationPage = () => {
 	return (
 		<Wrapper>
 			<Verification
+				verified={verified}
 				type={VerificationEnum.Register}
 				resendHandle={resendHandle}
 			/>

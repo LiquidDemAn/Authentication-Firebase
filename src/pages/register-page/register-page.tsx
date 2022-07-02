@@ -50,7 +50,7 @@ export const RegisterPage = () => {
 				sendEmailVerification(user, { url: 'http://localhost:3000/' })
 					.then(() => {
 						console.log('success');
-						navigate('/verification');
+						navigate('verification');
 					})
 					.catch((error: FirebaseError) => {
 						const errorCode = error.code;

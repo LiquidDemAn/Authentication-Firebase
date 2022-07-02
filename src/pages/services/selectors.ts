@@ -11,4 +11,5 @@ export const getUser = (state: AppState): UserType => {
 };
 
 export const getAuthStatus = (state: AppState) => state.user.isAuth;
+export const getEmailVerifiedStatus = (state: AppState) => state.user.emailVerified;
 export const getError = (state: AppState) => state.user.error;
