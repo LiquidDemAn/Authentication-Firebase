@@ -3,9 +3,14 @@ import { HomePage } from './pages/home-page';
 import { RegisterPage } from './pages/register-page';
 import { LoginPage } from './pages/login-page';
 import { useAuth } from './hooks/use-auth';
+import { VerificationPage } from './pages/verification-page';
 
 function App() {
-	const isAuth = useAuth();
+	const { isAuth, emailVerified } = useAuth();
+
+	// if (isAuth && !emailVerified) {
+	// 	return <VerificationPage></VerificationPage>
+	// }
 
 	return (
 		<>
@@ -17,6 +22,7 @@ function App() {
 					<Route path='/' element={<HomePage />} />
 					<Route path='/register' element={<RegisterPage />} />
 					<Route path='/login' element={<LoginPage />} />
+					<Route path='/verification' element={<VerificationPage />} />
 				</Routes>
 			)}
 		</>

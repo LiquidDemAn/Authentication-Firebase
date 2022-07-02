@@ -2,7 +2,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
 import { FormComponent } from '../../components/form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	sendEmailVerification,
+} from 'firebase/auth';
 import { setUser, setError } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
 import { getAuthStatus, getError } from '../services/selectors';
@@ -15,6 +19,10 @@ export const RegisterPage = () => {
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
 	const isAuth = useAppSelector(getAuthStatus);
+
+	const config = {
+		url: 'localhost:3000',
+	};
 
 	useEffect(() => {
 		if (isAuth === true) {
@@ -29,6 +37,7 @@ export const RegisterPage = () => {
 	) => {
 		const auth = getAuth();
 		event.preventDefault();
+
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
 				user.getIdToken().then((token) => {
@@ -40,7 +49,17 @@ export const RegisterPage = () => {
 						})
 					);
 				});
-				navigate('/');
+
+				sendEmailVerification(user!, { url: 'http://localhost:3000/' })
+					.then(() => {
+						console.log('success');
+						navigate('/verification');
+					})
+					.catch((error: FirebaseError) => {
+						const errorCode = error.code;
+						console.log(errorCode);
+						dispatch(setError(errorCode as ErrorsEnum));
+					});
 			})
 			.catch((error: FirebaseError) => {
 				const errorCode = error.code;

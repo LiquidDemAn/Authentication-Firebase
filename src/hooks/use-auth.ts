@@ -8,7 +8,11 @@ export const useAuth = () => {
 	const auth = getAuth();
 	const dispatch = useAppDispatch();
 	const isAuth = useSelector(getAuthStatus);
-	console.log(auth.currentUser)
+	const user = auth.currentUser;
+	const emailVerified = user?.emailVerified;
+
+	console.log(auth.currentUser);
+
 	onAuthStateChanged(auth, (user) => {
 		if (user && !isAuth) {
 			user.getIdToken().then((token) => {
@@ -27,5 +31,8 @@ export const useAuth = () => {
 		}
 	});
 
-	return isAuth;
+	return {
+		isAuth,
+		emailVerified,
+	};
 };
