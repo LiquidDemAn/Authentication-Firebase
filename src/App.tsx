@@ -5,7 +5,7 @@ import { LoginPage } from './pages/login-page';
 import { useAuth } from './hooks/use-auth';
 
 function App() {
-	const { isAuth } = useAuth();
+	const isAuth = useAuth();
 
 	return (
 		<>
