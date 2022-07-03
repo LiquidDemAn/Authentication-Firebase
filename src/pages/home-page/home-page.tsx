@@ -1,10 +1,10 @@
 import './home-page.scss';
+import { PathsEnum } from '../../App';
 import { useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { Wrapper } from '../../components/wrapper';
 import { useAppSelector } from '../../store/hooks';
-
 import { getAuthStatus } from '../services/selectors';
 import { LogOutButton } from '../../components/log-out-button';
 
@@ -15,7 +15,7 @@ export const HomePage = () => {
 
 	useEffect(() => {
 		if (isAuth === false) {
-			navigate('/login');
+			navigate(`${PathsEnum.Login}`);
 		}
 	}, [isAuth, navigate]);
 

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { getAuth, sendEmailVerification } from 'firebase/auth';
 import { Verification } from '../../components/verification';
 import { VerificationEnum } from '../../components/verification/verification';
@@ -9,6 +8,8 @@ import { setError } from '../services/user.slice';
 import { ErrorsEnum } from '../services/typedef';
 import { useAppSelector } from '../../store/hooks';
 import { getAuthStatus, getEmailVerifiedStatus } from '../services/selectors';
+import { PathsEnum } from '../../App';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const VerificationPage = () => {
@@ -16,18 +17,18 @@ export const VerificationPage = () => {
 	const navigate = useNavigate();
 	const auth = getAuth();
 	const user = auth.currentUser;
-	const isAuth = useAppSelector(getAuthStatus);
 	const verified = useAppSelector(getEmailVerifiedStatus);
+	const isAuth = useAppSelector(getAuthStatus);
 
 	useEffect(() => {
 		if (isAuth === false) {
-			navigate('/login');
+			navigate('/');
 		}
 	}, [isAuth, navigate]);
 
 	const resendHandle = () => {
 		if (user) {
-			sendEmailVerification(user, { url: 'http://localhost:3000/' })
+			sendEmailVerification(user, { url: PathsEnum.Host })
 				.then(() => {
 					document.location.reload();
 				})

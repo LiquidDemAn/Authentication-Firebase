@@ -13,6 +13,7 @@ import { getAuthStatus, getError } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
 import { AuthFormIdEnum } from '../../components/form/form';
 import { useEffect } from 'react';
+import { PathsEnum } from '../../App';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ export const RegisterPage = () => {
 
 	useEffect(() => {
 		if (isAuth === true) {
-			navigate('/');
+			navigate(`${PathsEnum.Home}`);
 		}
 	}, [isAuth, navigate]);
 
