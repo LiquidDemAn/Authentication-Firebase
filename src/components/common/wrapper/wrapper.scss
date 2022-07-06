@@ -3,7 +3,7 @@
 	height: 100vh;
 	padding: 0 15px;
 
-	background-image: url('../../images/mountains.jpg');
+	background-image: url('../../../images/mountains.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -17,8 +17,9 @@
 
 .wrapper__image {
 	display: none;
+	height: 100%;
 	width: 50%;
-	background-image: url('../../images/mountains.jpg');
+	background-image: url('../../../images/mountains.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;

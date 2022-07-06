@@ -1,14 +1,14 @@
-import './form.scss';
-import '../../common.scss';
+import './auth-form.scss';
+import '../../../common.scss';
 import { useEffect, useRef } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap';
-import { ErrorsEnum } from '../../pages/services/typedef';
+import { ErrorsEnum } from '../../../pages/services/typedef';
 import { Password } from '../password';
 import { Email } from '../email';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../store/hooks';
-import { setError } from '../../pages/services/user.slice';
-import { PathsEnum } from '../../App';
+import { useAppDispatch } from '../../../store/hooks';
+import { setError } from '../../../pages/services/user.slice';
+import { PathsEnum } from '../../../App';
 
 export enum AuthFormIdEnum {
 	Login = 'login',
@@ -27,7 +27,7 @@ type Props = {
 	) => void;
 };
 
-export const FormComponent = ({
+export const AuthForm = ({
 	formId,
 	title,
 	btnName,
@@ -52,7 +52,7 @@ export const FormComponent = ({
 				</Alert>
 			)}
 
-			{title && <h2 className='form__title'>{title}</h2>}
+			{title && <h2 className='auth-form__title'>{title}</h2>}
 			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />
 			{formId === AuthFormIdEnum.Login && (
@@ -60,7 +60,7 @@ export const FormComponent = ({
 			)}
 			<Button
 				type='submit'
-				className='form__btn'
+				className='auth-form__btn'
 				variant='success'
 				onClick={(event) =>
 					handleClick(

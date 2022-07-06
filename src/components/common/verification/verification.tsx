@@ -1,8 +1,8 @@
 import './verification.scss';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getUser } from '../../pages/services/selectors';
-import { useAppSelector } from '../../store/hooks';
+import { getUser } from '../../../pages/services/selectors';
+import { useAppSelector } from '../../../store/hooks';
 import { LogOutButton } from '../log-out-button';
 
 export enum VerificationEnum {

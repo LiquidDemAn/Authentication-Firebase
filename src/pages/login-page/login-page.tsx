@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FormComponent } from '../../components/form';
+import { AuthForm } from '../../components/common/auth-form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { setError } from '../services/user.slice';
-import { Wrapper } from '../../components/wrapper';
+import { Wrapper } from '../../components/common/wrapper';
 import { ErrorsEnum } from '../services/typedef';
 import { getError, getAuthStatus } from '../services/selectors';
 import { FirebaseError } from 'firebase/app';
-import { AuthFormIdEnum } from '../../components/form/form';
+import { AuthFormIdEnum } from '../../components/common/auth-form/auth-form';
 import { PathsEnum } from '../../App';
 
 export const LoginPage = () => {
@@ -41,7 +41,7 @@ export const LoginPage = () => {
 
 	return (
 		<Wrapper>
-			<FormComponent
+			<AuthForm
 				error={error}
 				formId={AuthFormIdEnum.Login}
 				title='Login to your account'

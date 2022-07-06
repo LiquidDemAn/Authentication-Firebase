@@ -1,9 +1,9 @@
 import './password.scss';
-import '../../common.scss';
+import '../../../common.scss';
 import { MutableRefObject, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
-import { ErrorsEnum } from '../../pages/services/typedef';
+import { ErrorsEnum } from '../../../pages/services/typedef';
 
 type Props = {
 	error: ErrorsEnum | null;

@@ -1,10 +1,10 @@
 import { Button } from 'react-bootstrap';
 import { getAuth, signOut } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-import { useAppDispatch } from '../../store/hooks';
-import { removeUser } from '../../pages/services/user.slice';
+import { useAppDispatch } from '../../../store/hooks';
+import { removeUser } from '../../../pages/services/user.slice';
 import { useNavigate } from 'react-router-dom';
-import { PathsEnum } from '../../App';
+import { PathsEnum } from '../../../App';
 
 export const LogOutButton = () => {
 	const navigate = useNavigate();

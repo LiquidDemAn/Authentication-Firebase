@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
-import { FormComponent } from '../../components/form';
+import { AuthForm } from '../../components/common/auth-form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
 	getAuth,
@@ -8,10 +8,10 @@ import {
 	sendEmailVerification,
 } from 'firebase/auth';
 import { setError } from '../services/user.slice';
-import { Wrapper } from '../../components/wrapper';
+import { Wrapper } from '../../components/common/wrapper';
 import { getAuthStatus, getError } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
-import { AuthFormIdEnum } from '../../components/form/form';
+import { AuthFormIdEnum } from '../../components/common/auth-form/auth-form';
 import { useEffect } from 'react';
 import { PathsEnum } from '../../App';
 
@@ -56,7 +56,7 @@ export const RegisterPage = () => {
 
 	return (
 		<Wrapper>
-			<FormComponent
+			<AuthForm
 				error={error}
 				title='Register'
 				formId={AuthFormIdEnum.Register}
