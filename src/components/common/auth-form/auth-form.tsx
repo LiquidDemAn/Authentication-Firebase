@@ -1,14 +1,15 @@
 import './auth-form.scss';
 import '../../../common.scss';
 import { useEffect, useRef } from 'react';
-import { Button, Form, Alert } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { ErrorsEnum } from '../../../pages/services/typedef';
 import { Password } from '../password';
 import { Email } from '../email';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { setError } from '../../../pages/services/user.slice';
 import { PathsEnum } from '../../../App';
+import { getError } from '../../../pages/services/selectors';
 
 export enum AuthFormIdEnum {
 	Login = 'login',
@@ -19,7 +20,6 @@ type Props = {
 	formId: AuthFormIdEnum;
 	title?: string;
 	btnName: string;
-	error: null | ErrorsEnum;
 	handleClick: (
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
@@ -27,16 +27,11 @@ type Props = {
 	) => void;
 };
 
-export const AuthForm = ({
-	formId,
-	title,
-	btnName,
-	error,
-	handleClick,
-}: Props) => {
+export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
 	const dispatch = useAppDispatch();
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
+	const error = useAppSelector(getError);
 
 	useEffect(() => {
 		return () => {
@@ -46,12 +41,6 @@ export const AuthForm = ({
 
 	return (
 		<Form id={formId}>
-			{error === ErrorsEnum.UserNotFoundError && (
-				<Alert variant='warning'>
-					User not found! Go to <Link to={PathsEnum.Register}>Register</Link>
-				</Alert>
-			)}
-
 			{title && <h2 className='auth-form__title'>{title}</h2>}
 			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />

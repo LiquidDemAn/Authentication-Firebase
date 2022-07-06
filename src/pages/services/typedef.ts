@@ -10,6 +10,7 @@ export enum ErrorsEnum {
 	PasswordError = 'auth/wrong-password',
 	InternalError = 'auth/internal-error',
 	UserNotFoundError = 'auth/user-not-found',
+	EmailAlreadyUse = 'auth/email-already-in-use',
 }
 
 export type UserStateType = {

@@ -14,6 +14,7 @@ import { ErrorsEnum } from '../services/typedef';
 import { AuthFormIdEnum } from '../../components/common/auth-form/auth-form';
 import { useEffect } from 'react';
 import { PathsEnum } from '../../App';
+import { Alert } from 'react-bootstrap';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
@@ -56,13 +57,17 @@ export const RegisterPage = () => {
 
 	return (
 		<Wrapper>
-			<AuthForm
-				error={error}
-				title='Register'
-				formId={AuthFormIdEnum.Register}
-				btnName='Sign up'
-				handleClick={handleRegister}
-			/>
+			<>
+				{error === ErrorsEnum.EmailAlreadyUse && (
+					<Alert variant='warning'>This email is already in use!</Alert>
+				)}
+				<AuthForm
+					title='Register'
+					formId={AuthFormIdEnum.Register}
+					btnName='Sign up'
+					handleClick={handleRegister}
+				/>
+			</>
 
 			<p>
 				Alreadey have an account? <Link to='/login'>Sign In</Link>
