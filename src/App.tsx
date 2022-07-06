@@ -1,19 +1,25 @@
-import { useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { HomePage } from './pages/home-page';
 import { RegisterPage } from './pages/register-page';
 import { LoginPage } from './pages/login-page';
 import { useAuth } from './hooks/use-auth';
+import { VerificationPage } from './pages/verification-page';
+import { useEffect } from 'react';
+
+export enum PathsEnum {
+	Home = '/',
+	Host = 'http://localhost:3000',
+	Register = 'register',
+	Login = 'login',
+	Verification = 'verification',
+}
 
 function App() {
-	const navigate = useNavigate();
-	const { isAuth } = useAuth();
+	const { isAuth, emailVerified } = useAuth();
 
-	useEffect(() => {
-		if (isAuth === true) {
-			navigate('/');
-		}
-	}, [isAuth, navigate]);
+	if (isAuth && !emailVerified) {
+		return <VerificationPage></VerificationPage>;
+	}
 
 	return (
 		<>
@@ -22,9 +28,14 @@ function App() {
 			) : (
 				<Routes>
 					<Route index element={<HomePage />} />
-					<Route path='/' element={<HomePage />} />
-					<Route path='/register' element={<RegisterPage />} />
-					<Route path='/login' element={<LoginPage />} />
+					<Route path={PathsEnum.Register}>
+						<Route index element={<RegisterPage />} />
+						<Route
+							path={PathsEnum.Verification}
+							element={<VerificationPage />}
+						/>
+					</Route>
+					<Route path={PathsEnum.Login} element={<LoginPage />} />
 				</Routes>
 			)}
 		</>

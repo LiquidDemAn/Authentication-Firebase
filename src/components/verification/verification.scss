@@ -1,0 +1,27 @@
+.verification {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 15px;
+}
+
+.verification__title {
+	font-size: 38px;
+	font-weight: 700;
+}
+
+.verification__email {
+	display: inline-block;
+	font-size: 26px;
+	text-decoration: underline;
+}
+
+.verification__descriptionn {
+	text-align: center;
+	font-size: 22px;
+}
+
+.verification__buttons {
+	display: flex;
+	column-gap: 15px;
+}

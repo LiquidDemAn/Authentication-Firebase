@@ -5,14 +5,23 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { setError, setUser } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
 import { ErrorsEnum } from '../services/typedef';
-import { getError } from '../services/selectors';
+import { getAuthStatus, getError } from '../services/selectors';
 import { FirebaseError } from 'firebase/app';
 import { AuthFormIdEnum } from '../../components/form/form';
+import { useEffect } from 'react';
+import { PathsEnum } from '../../App';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
+	const isAuth = useAppSelector(getAuthStatus);
+
+	useEffect(() => {
+		if (isAuth === true) {
+			navigate(`${PathsEnum.Home}`);
+		}
+	}, [isAuth, navigate]);
 
 	const handleLogin = (
 		event: React.FormEvent<HTMLButtonElement>,
@@ -29,6 +38,7 @@ export const LoginPage = () => {
 						setUser({
 							email: user.email,
 							id: user.uid,
+							emailVerified: user.emailVerified,
 							token,
 						})
 					);

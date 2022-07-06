@@ -1,38 +1,39 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getUserEmail } from './../pages/services/selectors';
+import { getAuthStatus } from './../pages/services/selectors';
 import { useAppDispatch } from './../store/hooks';
-import { setUser } from '../pages/services/user.slice';
+import { setAuthStatus, setUser } from '../pages/services/user.slice';
 
 export const useAuth = () => {
 	const auth = getAuth();
 	const dispatch = useAppDispatch();
-	const userEmail = useSelector(getUserEmail);
-	const [isAuth, setIsAuth] = useState<null | boolean>(null);
+	const isAuth = useSelector(getAuthStatus);
+	const user = auth.currentUser;
+	const emailVerified = user?.emailVerified;
+
+	console.log(auth.currentUser);
 
 	onAuthStateChanged(auth, (user) => {
-		if (user) {
+		if (user && !isAuth) {
 			user.getIdToken().then((token) => {
-				if (!userEmail) {
-					dispatch(
-						setUser({
-							email: user.email,
-							id: user.uid,
-							token,
-						})
-					);
-				}
+				dispatch(
+					setUser({
+						email: user.email,
+						id: user.uid,
+						emailVerified: user.emailVerified,
+						token,
+					})
+				);
 			});
-
-			setIsAuth(true);
 		} else {
-			setIsAuth(false);
+			if (isAuth === null) {
+				dispatch(setAuthStatus(false));
+			}
 		}
 	});
 
 	return {
 		isAuth,
-		email: userEmail,
+		emailVerified,
 	};
 };

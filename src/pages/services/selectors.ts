@@ -6,9 +6,10 @@ export const getUser = (state: AppState): UserType => {
 		id: state.user.id,
 		email: state.user.email,
 		token: state.user.token,
+		emailVerified: state.user.emailVerified,
 	};
 };
 
-export const getUserEmail = (state: AppState) => state.user.email;
-
+export const getAuthStatus = (state: AppState) => state.user.isAuth;
+export const getEmailVerifiedStatus = (state: AppState) => state.user.emailVerified;
 export const getError = (state: AppState) => state.user.error;
