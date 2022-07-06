@@ -1,19 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
-import { FormComponent } from '../../components/form';
+import { AuthForm } from '../../components/common/auth-form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
 	getAuth,
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
 } from 'firebase/auth';
-import { setUser, setError } from '../services/user.slice';
-import { Wrapper } from '../../components/wrapper';
+import { setError } from '../services/user.slice';
+import { Wrapper } from '../../components/common/wrapper';
 import { getAuthStatus, getError } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
-import { AuthFormIdEnum } from '../../components/form/form';
+import { AuthFormIdEnum } from '../../components/common/auth-form/auth-form';
 import { useEffect } from 'react';
 import { PathsEnum } from '../../App';
+import { Alert } from 'react-bootstrap';
 
 export const RegisterPage = () => {
 	const dispatch = useAppDispatch();
@@ -37,26 +38,14 @@ export const RegisterPage = () => {
 
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
-				user.getIdToken().then((token) => {
-					dispatch(
-						setUser({
-							email: user.email,
-							id: user.uid,
-							emailVerified: user.emailVerified,
-							token,
-						})
-					);
-				});
-
-				sendEmailVerification(user, { url: 'http://localhost:3000/' })
+				sendEmailVerification(user, { url: PathsEnum.Host })
 					.then(() => {
 						console.log('success');
-						navigate('verification');
+						navigate(PathsEnum.Verification);
 					})
 					.catch((error: FirebaseError) => {
-						const errorCode = error.code;
-						console.log(errorCode);
-						dispatch(setError(errorCode as ErrorsEnum));
+						console.log(error.code);
+						dispatch(setError(error.code as ErrorsEnum));
 					});
 			})
 			.catch((error: FirebaseError) => {
@@ -68,13 +57,17 @@ export const RegisterPage = () => {
 
 	return (
 		<Wrapper>
-			<FormComponent
-				error={error}
-				title='Register'
-				formId={AuthFormIdEnum.Register}
-				btnName='Sign up'
-				handleClick={handleRegister}
-			/>
+			<>
+				{error === ErrorsEnum.EmailAlreadyUse && (
+					<Alert variant='warning'>This email is already in use!</Alert>
+				)}
+				<AuthForm
+					title='Register'
+					formId={AuthFormIdEnum.Register}
+					btnName='Sign up'
+					handleClick={handleRegister}
+				/>
+			</>
 
 			<p>
 				Alreadey have an account? <Link to='/login'>Sign In</Link>

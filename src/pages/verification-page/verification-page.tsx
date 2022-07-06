@@ -1,7 +1,7 @@
 import { getAuth, sendEmailVerification } from 'firebase/auth';
-import { Verification } from '../../components/verification';
-import { VerificationEnum } from '../../components/verification/verification';
-import { Wrapper } from '../../components/wrapper';
+import { Verification } from '../../components/common/verification';
+import { VerificationEnum } from '../../components/common/verification/verification';
+import { Wrapper } from '../../components/common/wrapper';
 import { FirebaseError } from 'firebase/app';
 import { useDispatch } from 'react-redux';
 import { setError } from '../services/user.slice';

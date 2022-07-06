@@ -1,15 +1,16 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FormComponent } from '../../components/form';
+import { AuthForm } from '../../components/common/auth-form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { setError, setUser } from '../services/user.slice';
-import { Wrapper } from '../../components/wrapper';
+import { setError } from '../services/user.slice';
+import { Wrapper } from '../../components/common/wrapper';
 import { ErrorsEnum } from '../services/typedef';
-import { getAuthStatus, getError } from '../services/selectors';
+import { getError, getAuthStatus } from '../services/selectors';
 import { FirebaseError } from 'firebase/app';
-import { AuthFormIdEnum } from '../../components/form/form';
-import { useEffect } from 'react';
+import { AuthFormIdEnum } from '../../components/common/auth-form/auth-form';
 import { PathsEnum } from '../../App';
+import { Alert } from 'react-bootstrap';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
@@ -32,35 +33,28 @@ export const LoginPage = () => {
 		event.preventDefault();
 
 		signInWithEmailAndPassword(auth, email, password)
-			.then(({ user }) => {
-				user.getIdToken().then((token) => {
-					dispatch(
-						setUser({
-							email: user.email,
-							id: user.uid,
-							emailVerified: user.emailVerified,
-							token,
-						})
-					);
-				});
-				navigate('/');
-			})
+			.then()
 			.catch((error: FirebaseError) => {
-				const errorCode = error.code;
-				console.log(errorCode);
-				dispatch(setError(errorCode as ErrorsEnum));
+				console.log(error.code);
+				dispatch(setError(error.code as ErrorsEnum));
 			});
 	};
 
 	return (
 		<Wrapper>
-			<FormComponent
-				error={error}
-				formId={AuthFormIdEnum.Login}
-				title='Login to your account'
-				btnName='Login now'
-				handleClick={handleLogin}
-			/>
+			<>
+				{error === ErrorsEnum.UserNotFoundError && (
+					<Alert variant='warning'>
+						User not found! Go to <Link to={PathsEnum.Register}>Register</Link>
+					</Alert>
+				)}
+				<AuthForm
+					formId={AuthFormIdEnum.Login}
+					title='Login to your account'
+					btnName='Login now'
+					handleClick={handleLogin}
+				/>
+			</>
 			<span>
 				Don't have an account? <Link to='/register'>Sign Up</Link>
 			</span>

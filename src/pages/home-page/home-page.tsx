@@ -3,10 +3,10 @@ import { PathsEnum } from '../../App';
 import { useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { Wrapper } from '../../components/wrapper';
+import { Wrapper } from '../../components/common/wrapper';
 import { useAppSelector } from '../../store/hooks';
 import { getAuthStatus } from '../services/selectors';
-import { LogOutButton } from '../../components/log-out-button';
+import { LogOutButton } from '../../components/common/log-out-button';
 
 export const HomePage = () => {
 	const isAuth = useAppSelector(getAuthStatus);

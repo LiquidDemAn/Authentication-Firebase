@@ -1,14 +1,15 @@
-import './form.scss';
-import '../../common.scss';
+import './auth-form.scss';
+import '../../../common.scss';
 import { useEffect, useRef } from 'react';
-import { Button, Form, Alert } from 'react-bootstrap';
-import { ErrorsEnum } from '../../pages/services/typedef';
+import { Button, Form } from 'react-bootstrap';
+import { ErrorsEnum } from '../../../pages/services/typedef';
 import { Password } from '../password';
 import { Email } from '../email';
-import { FormAdd } from '../form-add';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../store/hooks';
-import { setError } from '../../pages/services/user.slice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { setError } from '../../../pages/services/user.slice';
+import { PathsEnum } from '../../../App';
+import { getError } from '../../../pages/services/selectors';
 
 export enum AuthFormIdEnum {
 	Login = 'login',
@@ -19,7 +20,6 @@ type Props = {
 	formId: AuthFormIdEnum;
 	title?: string;
 	btnName: string;
-	error: null | ErrorsEnum;
 	handleClick: (
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
@@ -27,16 +27,11 @@ type Props = {
 	) => void;
 };
 
-export const FormComponent = ({
-	formId,
-	title,
-	btnName,
-	error,
-	handleClick,
-}: Props) => {
+export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
 	const dispatch = useAppDispatch();
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
+	const error = useAppSelector(getError);
 
 	useEffect(() => {
 		return () => {
@@ -46,19 +41,15 @@ export const FormComponent = ({
 
 	return (
 		<Form id={formId}>
-			{error === ErrorsEnum.UserNotFoundError && (
-				<Alert variant='warning'>
-					User not found! Go to <Link to='/register'>Register</Link>
-				</Alert>
-			)}
-
-			{title && <h2 className='form__title'>{title}</h2>}
+			{title && <h2 className='auth-form__title'>{title}</h2>}
 			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />
-			{formId === AuthFormIdEnum.Login && <FormAdd />}
+			{formId === AuthFormIdEnum.Login && (
+				<Link to={PathsEnum.Home}>Forgot password?</Link>
+			)}
 			<Button
 				type='submit'
-				className='form__btn'
+				className='auth-form__btn'
 				variant='success'
 				onClick={(event) =>
 					handleClick(
