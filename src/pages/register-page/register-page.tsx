@@ -7,7 +7,7 @@ import {
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
 } from 'firebase/auth';
-import { setUser, setError } from '../services/user.slice';
+import { setError } from '../services/user.slice';
 import { Wrapper } from '../../components/wrapper';
 import { getAuthStatus, getError } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
@@ -37,17 +37,6 @@ export const RegisterPage = () => {
 
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
-				user.getIdToken().then((token) => {
-					dispatch(
-						setUser({
-							email: user.email,
-							id: user.uid,
-							emailVerified: user.emailVerified,
-							token,
-						})
-					);
-				});
-
 				sendEmailVerification(user, { url: 'http://localhost:3000/' })
 					.then(() => {
 						console.log('success');

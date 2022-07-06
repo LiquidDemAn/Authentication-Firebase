@@ -4,7 +4,7 @@ import { RegisterPage } from './pages/register-page';
 import { LoginPage } from './pages/login-page';
 import { useAuth } from './hooks/use-auth';
 import { VerificationPage } from './pages/verification-page';
-import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export enum PathsEnum {
 	Home = '/',
@@ -15,7 +15,12 @@ export enum PathsEnum {
 }
 
 function App() {
+	const location = useLocation();
 	const { isAuth, emailVerified } = useAuth();
+
+	if (isAuth === false && location.pathname !== `/${PathsEnum.Register}`) {
+		return <LoginPage />;
+	}
 
 	if (isAuth && !emailVerified) {
 		return <VerificationPage></VerificationPage>;
