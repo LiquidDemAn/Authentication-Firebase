@@ -37,15 +37,14 @@ export const RegisterPage = () => {
 
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
-				sendEmailVerification(user, { url: 'http://localhost:3000/' })
+				sendEmailVerification(user, { url: PathsEnum.Host })
 					.then(() => {
 						console.log('success');
-						navigate('verification');
+						navigate(PathsEnum.Verification);
 					})
 					.catch((error: FirebaseError) => {
-						const errorCode = error.code;
-						console.log(errorCode);
-						dispatch(setError(errorCode as ErrorsEnum));
+						console.log(error.code);
+						dispatch(setError(error.code as ErrorsEnum));
 					});
 			})
 			.catch((error: FirebaseError) => {

@@ -34,6 +34,7 @@ export const LoginPage = () => {
 		signInWithEmailAndPassword(auth, email, password)
 			.then()
 			.catch((error: FirebaseError) => {
+				console.log(error.code);
 				dispatch(setError(error.code as ErrorsEnum));
 			});
 	};

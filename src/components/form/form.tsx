@@ -5,10 +5,10 @@ import { Button, Form, Alert } from 'react-bootstrap';
 import { ErrorsEnum } from '../../pages/services/typedef';
 import { Password } from '../password';
 import { Email } from '../email';
-import { FormAdd } from '../form-add';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { setError } from '../../pages/services/user.slice';
+import { PathsEnum } from '../../App';
 
 export enum AuthFormIdEnum {
 	Login = 'login',
@@ -48,14 +48,16 @@ export const FormComponent = ({
 		<Form id={formId}>
 			{error === ErrorsEnum.UserNotFoundError && (
 				<Alert variant='warning'>
-					User not found! Go to <Link to='/register'>Register</Link>
+					User not found! Go to <Link to={PathsEnum.Register}>Register</Link>
 				</Alert>
 			)}
 
 			{title && <h2 className='form__title'>{title}</h2>}
 			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />
-			{formId === AuthFormIdEnum.Login && <FormAdd />}
+			{formId === AuthFormIdEnum.Login && (
+				<Link to={PathsEnum.Home}>Forgot password?</Link>
+			)}
 			<Button
 				type='submit'
 				className='form__btn'
