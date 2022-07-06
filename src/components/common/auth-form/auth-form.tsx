@@ -41,7 +41,7 @@ export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
 
 	return (
 		<Form id={formId}>
-			{title && <h2 className='auth-form__title'>{title}</h2>}
+			{title && <h2 className='form-title'>{title}</h2>}
 
 			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />
