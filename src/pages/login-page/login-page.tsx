@@ -56,7 +56,7 @@ export const LoginPage = () => {
 				/>
 			</>
 			<span>
-				Don't have an account? <Link to='/register'>Sign Up</Link>
+				Don't have an account? <Link to={PathsEnum.Register}>Sign Up</Link>
 			</span>
 		</Wrapper>
 	);

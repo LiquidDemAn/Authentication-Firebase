@@ -42,11 +42,14 @@ export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
 	return (
 		<Form id={formId}>
 			{title && <h2 className='auth-form__title'>{title}</h2>}
+
 			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />
+
 			{formId === AuthFormIdEnum.Login && (
-				<Link to={PathsEnum.Home}>Forgot password?</Link>
+				<Link to={PathsEnum.ResetPassword}>Forgot password?</Link>
 			)}
+			
 			<Button
 				type='submit'
 				className='auth-form__btn'
