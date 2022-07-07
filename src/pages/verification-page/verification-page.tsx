@@ -22,7 +22,7 @@ export const VerificationPage = () => {
 
 	useEffect(() => {
 		if (isAuth === false) {
-			navigate('/');
+			navigate(PathsEnum.Home);
 		}
 	}, [isAuth, navigate]);
 
@@ -43,6 +43,7 @@ export const VerificationPage = () => {
 	return (
 		<Wrapper>
 			<Verification
+				email={user?.email}
 				verified={verified}
 				type={VerificationEnum.Register}
 				resendHandle={resendHandle}
