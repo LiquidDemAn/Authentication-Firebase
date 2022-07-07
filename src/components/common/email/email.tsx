@@ -2,6 +2,7 @@ import '../../../common.scss';
 import { MutableRefObject } from 'react';
 import { ErrorsEnum } from '../../../pages/services/typedef';
 import { Form } from 'react-bootstrap';
+import { InputError } from '../input-error';
 
 type Props = {
 	error: ErrorsEnum | null;
@@ -23,9 +24,7 @@ export const Email = ({ error, emailRef }: Props) => {
 				placeholder='Enter email'
 				required
 			/>
-			{error === ErrorsEnum.EmailError && (
-				<span className='form-group__error-text'>Wrong Email!</span>
-			)}
+			{error === ErrorsEnum.EmailError && <InputError>Wrong Email!</InputError>}
 		</Form.Group>
 	);
 };

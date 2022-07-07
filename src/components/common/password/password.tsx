@@ -4,6 +4,7 @@ import { MutableRefObject, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
 import { ErrorsEnum } from '../../../pages/services/typedef';
+import { InputError } from '../input-error';
 
 type Props = {
 	error: ErrorsEnum | null;
@@ -36,7 +37,7 @@ export const Password = ({ error, passwordRef }: Props) => {
 				/>
 				{(error === ErrorsEnum.PasswordError ||
 					error === ErrorsEnum.InternalError) && (
-					<span className='form-group__error-text'>Wrong Password!</span>
+					<InputError>Wrong Password!</InputError>
 				)}
 				{showPassword ? (
 					<IoEyeOffSharp
