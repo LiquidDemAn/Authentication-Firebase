@@ -13,9 +13,11 @@ export const Email = ({ error, emailRef }: Props) => {
 		<Form.Group className='form-group' controlId='formEmail'>
 			<Form.Label>Email address</Form.Label>
 			<Form.Control
-				className={`form-group__control ${
-					error === ErrorsEnum.EmailError && 'form-group__control_border-red'
-				}`}
+				className={
+					error === ErrorsEnum.EmailError
+						? 'form-group__control_border-red'
+						: ''
+				}
 				type='email'
 				ref={emailRef}
 				placeholder='Enter email'

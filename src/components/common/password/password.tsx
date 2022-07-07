@@ -18,18 +18,17 @@ export const Password = ({ error, passwordRef }: Props) => {
 	};
 
 	return (
-		<Form.Group className='form-group' controlId='formPassword'>
+		<Form.Group className='form-group'>
 			<Form.Label>Password</Form.Label>
 			<div className='password__input-wrapper'>
 				<Form.Control
 					autoComplete='on'
-					className={`form-group__control 
-        ${
-					(error === ErrorsEnum.PasswordError ||
-						error === ErrorsEnum.InternalError) &&
-					'form-group__control_border-red'
-				}
-        `}
+					className={
+						error === ErrorsEnum.PasswordError ||
+						error === ErrorsEnum.InternalError
+							? 'form-group__control_border-red'
+							: ' '
+					}
 					type={showPassword ? 'text' : 'password'}
 					ref={passwordRef}
 					placeholder='Password'

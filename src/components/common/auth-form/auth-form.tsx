@@ -2,7 +2,6 @@ import './auth-form.scss';
 import '../../../common.scss';
 import { useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { ErrorsEnum } from '../../../pages/services/typedef';
 import { Password } from '../password';
 import { Email } from '../email';
 import { Link } from 'react-router-dom';
@@ -10,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { setError } from '../../../pages/services/user.slice';
 import { PathsEnum } from '../../../App';
 import { getError } from '../../../pages/services/selectors';
+import { FormTitle } from '../form-title';
 
 export enum AuthFormIdEnum {
 	Login = 'login',
@@ -41,7 +41,7 @@ export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
 
 	return (
 		<Form id={formId}>
-			{title && <h2 className='form-title'>{title}</h2>}
+			{title && <FormTitle>{title}</FormTitle>}
 
 			<Email error={error} emailRef={emailRef} />
 			<Password error={error} passwordRef={passwordRef} />
@@ -49,7 +49,7 @@ export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
 			{formId === AuthFormIdEnum.Login && (
 				<Link to={PathsEnum.ResetPassword}>Forgot password?</Link>
 			)}
-			
+
 			<Button
 				type='submit'
 				className='auth-form__btn'

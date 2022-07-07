@@ -29,7 +29,6 @@ export const ResetPasswordPage = () => {
 
 	return (
 		<Wrapper>
-			<h2 className='form-title'>Reset Password</h2>
 			<ResetPasswordForm onClick={sendHandle} />
 		</Wrapper>
 	);
