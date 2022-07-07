@@ -1,5 +1,4 @@
 import './auth-form.scss';
-import '../../../common.scss';
 import { useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Password } from '../password';
@@ -40,30 +39,32 @@ export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
 	}, [dispatch]);
 
 	return (
-		<Form id={formId}>
+		<Form className='auth-form' id={formId}>
 			{title && <FormTitle>{title}</FormTitle>}
 
-			<Email error={error} emailRef={emailRef} />
-			<Password error={error} passwordRef={passwordRef} />
+			<div className='auth-form__content'>
+				<Email error={error} emailRef={emailRef} />
+				<Password error={error} passwordRef={passwordRef} />
 
-			{formId === AuthFormIdEnum.Login && (
-				<Link to={PathsEnum.ResetPassword}>Forgot password?</Link>
-			)}
+				{formId === AuthFormIdEnum.Login && (
+					<Link to={PathsEnum.ResetPassword}>Forgot password?</Link>
+				)}
 
-			<Button
-				type='submit'
-				className='auth-form__btn'
-				variant='success'
-				onClick={(event) =>
-					handleClick(
-						event,
-						emailRef.current!.value,
-						passwordRef.current!.value
-					)
-				}
-			>
-				{btnName}
-			</Button>
+				<Button
+					type='submit'
+					className='p-2 w-100'
+					variant='success'
+					onClick={(event) =>
+						handleClick(
+							event,
+							emailRef.current!.value,
+							passwordRef.current!.value
+						)
+					}
+				>
+					{btnName}
+				</Button>
+			</div>
 		</Form>
 	);
 };

@@ -1,5 +1,4 @@
 import './password.scss';
-import '../../../common.scss';
 import { MutableRefObject, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
@@ -19,7 +18,7 @@ export const Password = ({ error, passwordRef }: Props) => {
 	};
 
 	return (
-		<Form.Group className='form-group'>
+		<Form.Group>
 			<Form.Label>Password</Form.Label>
 			<div className='password__input-wrapper'>
 				<Form.Control
@@ -27,8 +26,8 @@ export const Password = ({ error, passwordRef }: Props) => {
 					className={
 						error === ErrorsEnum.PasswordError ||
 						error === ErrorsEnum.InternalError
-							? 'form-group__control_border-red'
-							: ' '
+							? 'border-danger'
+							: ''
 					}
 					type={showPassword ? 'text' : 'password'}
 					ref={passwordRef}

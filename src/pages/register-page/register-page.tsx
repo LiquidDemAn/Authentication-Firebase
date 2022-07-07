@@ -69,9 +69,9 @@ export const RegisterPage = () => {
 				/>
 			</>
 
-			<p>
+			<span>
 				Alreadey have an account? <Link to='/login'>Sign In</Link>
-			</p>
+			</span>
 		</Wrapper>
 	);
 };

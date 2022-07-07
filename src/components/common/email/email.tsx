@@ -1,4 +1,3 @@
-import '../../../common.scss';
 import { MutableRefObject } from 'react';
 import { ErrorsEnum } from '../../../pages/services/typedef';
 import { Form } from 'react-bootstrap';
@@ -11,14 +10,10 @@ type Props = {
 
 export const Email = ({ error, emailRef }: Props) => {
 	return (
-		<Form.Group className='form-group' controlId='formEmail'>
+		<Form.Group>
 			<Form.Label>Email address</Form.Label>
 			<Form.Control
-				className={
-					error === ErrorsEnum.EmailError
-						? 'form-group__control_border-red'
-						: ''
-				}
+				className={error === ErrorsEnum.EmailError ? 'border-danger' : ''}
 				type='email'
 				ref={emailRef}
 				placeholder='Enter email'
