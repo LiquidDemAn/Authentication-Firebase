@@ -21,12 +21,11 @@ export const ResetPasswordPage = () => {
 	const [resendAlert, setResendAlert] = useState(false);
 
 	const resendHandle = () => {
+		setResendAlert(false);
+
 		sendPasswordResetEmail(auth, emailRef.current)
 			.then(() => {
 				setResendAlert(true);
-				setTimeout(() => {
-					setResendAlert(false);
-				}, 10000);
 			})
 			.catch((error: FirebaseError) => {
 				const errorCode = error.code;
@@ -41,6 +40,10 @@ export const ResetPasswordPage = () => {
 	) => {
 		event.preventDefault();
 
+		if (error) {
+			dispatch(setError(null));
+		}
+
 		if (email) {
 			sendPasswordResetEmail(auth, email)
 				.then(() => {
@@ -52,6 +55,8 @@ export const ResetPasswordPage = () => {
 					console.log(errorCode);
 					dispatch(setError(errorCode as ErrorsEnum));
 				});
+		} else {
+			dispatch(setError(ErrorsEnum.EmailError));
 		}
 	};
 
@@ -61,7 +66,9 @@ export const ResetPasswordPage = () => {
 				{error === ErrorsEnum.UserNotFoundError && (
 					<Alert variant='danger'>User Not Found!</Alert>
 				)}
+
 				{resendAlert && <Alert variant='success'>Letter Resended!</Alert>}
+
 				{sent ? (
 					<Verification
 						email={emailRef.current}
