@@ -11,6 +11,9 @@ import { useAppSelector } from '../../store/hooks';
 import { getError } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
 import { setError } from '../services/user.slice';
+import { FormTitle } from '../../components/common/form-title';
+import { Link } from 'react-router-dom';
+import { PathsEnum } from '../../App';
 
 export const ResetPasswordPage = () => {
 	const dispatch = useDispatch();
@@ -76,7 +79,11 @@ export const ResetPasswordPage = () => {
 						resendHandle={resendHandle}
 					/>
 				) : (
-					<ResetPasswordForm onClick={sendHandle} />
+					<>
+						<FormTitle>Reset Password</FormTitle>
+						<ResetPasswordForm onClick={sendHandle} />
+						<Link to={`/${PathsEnum.Login}`}>Back to Login?</Link>
+					</>
 				)}
 			</>
 		</Wrapper>
