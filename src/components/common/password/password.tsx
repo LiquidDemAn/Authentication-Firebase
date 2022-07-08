@@ -6,11 +6,12 @@ import { ErrorsEnum } from '../../../pages/services/typedef';
 import { InputError } from '../input-error';
 
 type Props = {
+	lable?: string;
 	error: ErrorsEnum | null;
 	passwordRef: MutableRefObject<HTMLInputElement | null>;
 };
 
-export const Password = ({ error, passwordRef }: Props) => {
+export const Password = ({ error, passwordRef, lable }: Props) => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const togglePassword = () => {
@@ -19,7 +20,7 @@ export const Password = ({ error, passwordRef }: Props) => {
 
 	return (
 		<Form.Group>
-			<Form.Label>Password</Form.Label>
+			<Form.Label>{lable ? lable : 'Password'}</Form.Label>
 			<div className='password__input-wrapper'>
 				<Form.Control
 					autoComplete='on'

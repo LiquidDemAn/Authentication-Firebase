@@ -1,4 +1,4 @@
-export type UserType = {
+	export type UserType = {
 	email: null | string;
 	token: null | string;
 	id: null | string;
@@ -11,6 +11,7 @@ export enum ErrorsEnum {
 	InternalError = 'auth/internal-error',
 	UserNotFoundError = 'auth/user-not-found',
 	EmailAlreadyUse = 'auth/email-already-in-use',
+	PasswordsNotMatch = 'passwords-do-not-match',
 }
 
 export type UserStateType = {

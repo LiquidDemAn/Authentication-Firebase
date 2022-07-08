@@ -48,7 +48,9 @@ export const ResetPasswordPage = () => {
 		}
 
 		if (email) {
-			sendPasswordResetEmail(auth, email)
+			sendPasswordResetEmail(auth, email, {
+				url: `${PathsEnum.Host}/${PathsEnum.Login}`,
+			})
 				.then(() => {
 					setSent(true);
 					emailRef.current = email;
