@@ -6,6 +6,7 @@ import { useAuth } from './hooks/use-auth';
 import { VerificationPage } from './pages/verification-page';
 import { useLocation } from 'react-router-dom';
 import { ResetPasswordPage } from './pages/reset-password-page';
+import { NewPasswordPage } from './pages/new-password-page';
 
 export enum PathsEnum {
 	Home = '/',
@@ -14,6 +15,7 @@ export enum PathsEnum {
 	ResetPassword = 'reset-password',
 	Login = 'login',
 	Verification = 'verification',
+	NewPassword = 'new-password',
 }
 
 function App() {
@@ -23,7 +25,8 @@ function App() {
 	if (
 		isAuth === false &&
 		location.pathname !== `/${PathsEnum.Register}` &&
-		location.pathname !== `/${PathsEnum.ResetPassword}`
+		location.pathname !== `/${PathsEnum.ResetPassword}` &&
+		location.pathname !== `/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}`
 	) {
 		return <LoginPage />;
 	}
@@ -47,10 +50,10 @@ function App() {
 						/>
 					</Route>
 					<Route path={PathsEnum.Login} element={<LoginPage />} />
-					<Route
-						path={PathsEnum.ResetPassword}
-						element={<ResetPasswordPage />}
-					/>
+					<Route path={PathsEnum.ResetPassword}>
+						<Route index element={<ResetPasswordPage />} />
+						<Route path={PathsEnum.NewPassword} element={<NewPasswordPage />} />
+					</Route>
 				</Routes>
 			)}
 		</>
