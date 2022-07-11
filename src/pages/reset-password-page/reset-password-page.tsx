@@ -1,6 +1,6 @@
 import { FirebaseError } from 'firebase/app';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Alert } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { Verification } from '../../components/common/verification';
@@ -8,32 +8,36 @@ import { VerificationEnum } from '../../components/common/verification/verificat
 import { Wrapper } from '../../components/common/wrapper';
 import { ResetPasswordForm } from '../../components/reset-password/reset-password-form';
 import { useAppSelector } from '../../store/hooks';
-import { getError } from '../services/selectors';
+import { getError, getAuthStatus } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
 import { setError } from '../services/user.slice';
 import { FormTitle } from '../../components/common/form-title';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PathsEnum } from '../../App';
 
 export const ResetPasswordPage = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const isAuth = useAppSelector(getAuthStatus);
 	const auth = getAuth();
 	const emailRef = useRef('');
 	const error = useAppSelector(getError);
 	const [sent, setSent] = useState(false);
-	const [resendAlert, setResendAlert] = useState(false);
+	const [resendStatus, setResendStatus] = useState(false);
+
+	useEffect(() => {
+		if (isAuth) {
+			navigate(PathsEnum.Home);
+		}
+	}, [isAuth, navigate]);
 
 	const resendHandle = () => {
-		setResendAlert(false);
-
 		sendPasswordResetEmail(auth, emailRef.current)
-			.then(() => {
-				setResendAlert(true);
+			.then(() => {	
+				setResendStatus(true);
 			})
 			.catch((error: FirebaseError) => {
-				const errorCode = error.code;
-				console.log(errorCode);
-				dispatch(setError(errorCode as ErrorsEnum));
+				dispatch(setError(error.code as ErrorsEnum));
 			});
 	};
 
@@ -48,20 +52,14 @@ export const ResetPasswordPage = () => {
 		}
 
 		if (email) {
-			sendPasswordResetEmail(auth, email, {
-				url: `${PathsEnum.Host}/${PathsEnum.Login}`,
-			})
+			sendPasswordResetEmail(auth, email)
 				.then(() => {
 					setSent(true);
 					emailRef.current = email;
 				})
 				.catch((error: FirebaseError) => {
-					const errorCode = error.code;
-					console.log(errorCode);
-					dispatch(setError(errorCode as ErrorsEnum));
+					dispatch(setError(error.code as ErrorsEnum));
 				});
-		} else {
-			dispatch(setError(ErrorsEnum.EmailError));
 		}
 	};
 
@@ -72,13 +70,14 @@ export const ResetPasswordPage = () => {
 					<Alert variant='danger'>User Not Found!</Alert>
 				)}
 
-				{resendAlert && <Alert variant='success'>Letter Resended!</Alert>}
+				{resendStatus && <Alert variant='success'>Letter Resend!</Alert>}
 
 				{sent ? (
 					<Verification
 						email={emailRef.current}
 						type={VerificationEnum.ResetPassword}
 						resendHandle={resendHandle}
+						resendStatus={resendStatus}
 					/>
 				) : (
 					<>

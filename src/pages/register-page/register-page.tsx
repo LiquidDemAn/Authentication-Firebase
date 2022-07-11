@@ -28,7 +28,7 @@ export const RegisterPage = () => {
 		}
 	}, [isAuth, navigate]);
 
-	const handleRegister = (
+	const onSubmit = (
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
 		password: string
@@ -40,7 +40,6 @@ export const RegisterPage = () => {
 			.then(({ user }) => {
 				sendEmailVerification(user, { url: PathsEnum.Host })
 					.then(() => {
-						console.log('success');
 						navigate(PathsEnum.Verification);
 					})
 					.catch((error: FirebaseError) => {
@@ -49,9 +48,8 @@ export const RegisterPage = () => {
 					});
 			})
 			.catch((error: FirebaseError) => {
-				const errorCode = error.code;
-				console.log(errorCode);
-				dispatch(setError(errorCode as ErrorsEnum));
+				console.log(error.code);
+				dispatch(setError(error.code as ErrorsEnum));
 			});
 	};
 
@@ -65,7 +63,7 @@ export const RegisterPage = () => {
 					title='Register'
 					formId={AuthFormIdEnum.Register}
 					btnName='Sign up'
-					handleClick={handleRegister}
+					handleClick={onSubmit}
 				/>
 			</>
 

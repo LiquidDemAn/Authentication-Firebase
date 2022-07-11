@@ -7,18 +7,22 @@ import { useDispatch } from 'react-redux';
 import { setError } from '../services/user.slice';
 import { ErrorsEnum } from '../services/typedef';
 import { useAppSelector } from '../../store/hooks';
-import { getAuthStatus, getEmailVerifiedStatus } from '../services/selectors';
+import {
+	getAuthStatus,
+	getEmailVerifiedStatus,
+	getUser,
+} from '../services/selectors';
 import { PathsEnum } from '../../App';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const VerificationPage = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const auth = getAuth();
-	const user = auth.currentUser;
+	const user = useAppSelector(getUser);
 	const verified = useAppSelector(getEmailVerifiedStatus);
 	const isAuth = useAppSelector(getAuthStatus);
+	const [resendStatus, setResendStatus] = useState(false);
 
 	useEffect(() => {
 		if (isAuth === false) {
@@ -27,10 +31,13 @@ export const VerificationPage = () => {
 	}, [isAuth, navigate]);
 
 	const resendHandle = () => {
-		if (user) {
-			sendEmailVerification(user, { url: PathsEnum.Host })
+		const auth = getAuth();
+		const currnetUser = auth.currentUser;
+
+		if (currnetUser) {
+			sendEmailVerification(currnetUser, { url: PathsEnum.Host })
 				.then(() => {
-					document.location.reload();
+					setResendStatus(true);
 				})
 				.catch((error: FirebaseError) => {
 					const errorCode = error.code;
@@ -43,7 +50,8 @@ export const VerificationPage = () => {
 	return (
 		<Wrapper>
 			<Verification
-				email={user?.email}
+				email={user.email}
+				resendStatus={resendStatus}
 				verified={verified}
 				type={VerificationEnum.Register}
 				resendHandle={resendHandle}

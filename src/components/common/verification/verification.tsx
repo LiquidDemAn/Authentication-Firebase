@@ -10,10 +10,11 @@ export enum VerificationEnum {
 }
 
 type Props = {
-	verified?: boolean;
 	type: VerificationEnum;
 	resendHandle: () => void;
-	email?: string | null;
+	email: string | null;
+	resendStatus: boolean;
+	verified?: boolean;
 };
 
 export const Verification = ({
@@ -21,6 +22,7 @@ export const Verification = ({
 	type,
 	resendHandle,
 	email,
+	resendStatus,
 }: Props) => {
 	const navigate = useNavigate();
 
@@ -40,7 +42,9 @@ export const Verification = ({
 						by clicking "Resend leter"
 					</p>
 					<div className='verification__buttons'>
-						<Button onClick={resendHandle}>Resend leter</Button>
+						{!resendStatus && (
+							<Button onClick={resendHandle}>Resend leter</Button>
+						)}
 						{type === VerificationEnum.Register && <LogOutButton />}
 						{type === VerificationEnum.ResetPassword && (
 							<Button onClick={() => navigate(`/${PathsEnum.Login}`)}>

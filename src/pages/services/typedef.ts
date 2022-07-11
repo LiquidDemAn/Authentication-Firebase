@@ -14,6 +14,7 @@ export enum ErrorsEnum {
 	PasswordsNotMatch = 'passwords-do-not-match',
 	ExpiredActionCode = 'auth/expired-action-code',
 	WeakPassword = 'auth/weak-password',
+	ActionCodeUsed = 'auth/invalid-action-code',
 }
 
 export type UserStateType = {
