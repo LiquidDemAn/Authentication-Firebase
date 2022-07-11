@@ -65,7 +65,7 @@ export const RegisterPage = () => {
 		const currnetUser = auth.currentUser;
 
 		if (currnetUser) {
-			sendEmailVerification(currnetUser, { url: PathsEnum.Host })
+			sendEmailVerification(currnetUser)
 				.then(() => {
 					setResendStatus(true);
 				})
@@ -80,12 +80,17 @@ export const RegisterPage = () => {
 	return (
 		<Wrapper>
 			{isAuth && !emailVerifiedStatus ? (
-				<Verification
-					type={VerificationEnum.Register}
-					email={user.email}
-					resendHandle={resendHandle}
-					resendStatus={resendStatus}
-				/>
+				<>
+					{resendStatus && <Alert variant='success'>Letter Resend!</Alert>}
+
+					<Verification
+						title='Email'
+						type={VerificationEnum.Register}
+						email={user.email}
+						resendHandle={resendHandle}
+						resendStatus={resendStatus}
+					/>
+				</>
 			) : (
 				<>
 					{error === ErrorsEnum.EmailAlreadyUse && (

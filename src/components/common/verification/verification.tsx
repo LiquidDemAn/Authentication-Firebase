@@ -10,6 +10,7 @@ export enum VerificationEnum {
 }
 
 type Props = {
+	title: string;
 	type: VerificationEnum;
 	resendHandle: () => void;
 	email: string | null;
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export const Verification = ({
+	title,
 	verified,
 	type,
 	resendHandle,
@@ -28,7 +30,7 @@ export const Verification = ({
 
 	return (
 		<div className='verification'>
-			<h3 className='verification__title'>Verification</h3>
+			<h3 className='verification__title'>{title} Verification</h3>
 			<span className='verification__email'>{email}</span>
 			{verified ? (
 				<p>

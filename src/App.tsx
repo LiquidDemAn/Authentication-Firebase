@@ -6,6 +6,7 @@ import { useAuth } from './hooks/use-auth';
 import { useLocation } from 'react-router-dom';
 import { ResetPasswordPage } from './pages/reset-password-page';
 import { NewPasswordPage } from './pages/new-password-page';
+import { SuccessEmailVerifPage } from './pages/success-email-verif-page';
 
 export enum PathsEnum {
 	Home = '/',
@@ -13,7 +14,7 @@ export enum PathsEnum {
 	Register = 'register',
 	ResetPassword = 'reset-password',
 	Login = 'login',
-	Verification = 'verification',
+	Success = 'success',
 	NewPassword = 'new-password',
 }
 
@@ -43,10 +44,10 @@ function App() {
 					<Route index element={<HomePage />} />
 					<Route path={PathsEnum.Register}>
 						<Route index element={<RegisterPage />} />
-						{/* <Route
-							path={PathsEnum.Verification}
-							element={<VerificationPage />}
-						/> */}
+						<Route
+							path={PathsEnum.Success}
+							element={<SuccessEmailVerifPage />}
+						/>
 					</Route>
 					<Route path={PathsEnum.Login} element={<LoginPage />} />
 					<Route path={PathsEnum.ResetPassword}>

@@ -33,7 +33,7 @@ export const ResetPasswordPage = () => {
 
 	const resendHandle = () => {
 		sendPasswordResetEmail(auth, emailRef.current)
-			.then(() => {	
+			.then(() => {
 				setResendStatus(true);
 			})
 			.catch((error: FirebaseError) => {
@@ -74,6 +74,7 @@ export const ResetPasswordPage = () => {
 
 				{sent ? (
 					<Verification
+						title='Reset Password'
 						email={emailRef.current}
 						type={VerificationEnum.ResetPassword}
 						resendHandle={resendHandle}
