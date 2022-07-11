@@ -1,16 +1,17 @@
 import './password.scss';
-import '../../../common.scss';
 import { MutableRefObject, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
 import { ErrorsEnum } from '../../../pages/services/typedef';
+import { InputError } from '../input-error';
 
 type Props = {
+	lable?: string;
 	error: ErrorsEnum | null;
 	passwordRef: MutableRefObject<HTMLInputElement | null>;
 };
 
-export const Password = ({ error, passwordRef }: Props) => {
+export const Password = ({ error, passwordRef, lable }: Props) => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const togglePassword = () => {
@@ -18,18 +19,17 @@ export const Password = ({ error, passwordRef }: Props) => {
 	};
 
 	return (
-		<Form.Group className='form-group' controlId='formPassword'>
-			<Form.Label>Password</Form.Label>
+		<Form.Group>
+			<Form.Label>{lable ? lable : 'Password'}</Form.Label>
 			<div className='password__input-wrapper'>
 				<Form.Control
 					autoComplete='on'
-					className={`form-group__control 
-        ${
-					(error === ErrorsEnum.PasswordError ||
-						error === ErrorsEnum.InternalError) &&
-					'form-group__control_border-red'
-				}
-        `}
+					className={
+						error === ErrorsEnum.PasswordError ||
+						error === ErrorsEnum.InternalError
+							? 'border-danger'
+							: ''
+					}
 					type={showPassword ? 'text' : 'password'}
 					ref={passwordRef}
 					placeholder='Password'
@@ -37,7 +37,7 @@ export const Password = ({ error, passwordRef }: Props) => {
 				/>
 				{(error === ErrorsEnum.PasswordError ||
 					error === ErrorsEnum.InternalError) && (
-					<span className='form-group__error-text'>Wrong Password!</span>
+					<InputError>Wrong Password!</InputError>
 				)}
 				{showPassword ? (
 					<IoEyeOffSharp
