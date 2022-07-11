@@ -3,7 +3,6 @@ import { HomePage } from './pages/home-page';
 import { RegisterPage } from './pages/register-page';
 import { LoginPage } from './pages/login-page';
 import { useAuth } from './hooks/use-auth';
-import { VerificationPage } from './pages/verification-page';
 import { useLocation } from 'react-router-dom';
 import { ResetPasswordPage } from './pages/reset-password-page';
 import { NewPasswordPage } from './pages/new-password-page';
@@ -32,7 +31,7 @@ function App() {
 	}
 
 	if (isAuth && !emailVerified) {
-		return <VerificationPage></VerificationPage>;
+		return <RegisterPage></RegisterPage>;
 	}
 
 	return (
@@ -44,10 +43,10 @@ function App() {
 					<Route index element={<HomePage />} />
 					<Route path={PathsEnum.Register}>
 						<Route index element={<RegisterPage />} />
-						<Route
+						{/* <Route
 							path={PathsEnum.Verification}
 							element={<VerificationPage />}
-						/>
+						/> */}
 					</Route>
 					<Route path={PathsEnum.Login} element={<LoginPage />} />
 					<Route path={PathsEnum.ResetPassword}>
