@@ -7,6 +7,7 @@ import {
 	getAuth,
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
+	AuthCredential,
 } from 'firebase/auth';
 import { setError } from '../services/user.slice';
 import { Wrapper } from '../../components/common/wrapper';
@@ -48,7 +49,7 @@ export const RegisterPage = () => {
 
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
-				sendEmailVerification(user, { url: PathsEnum.Host })
+				sendEmailVerification(user)
 					.then()
 					.catch((error: FirebaseError) => {
 						console.log(error.code);

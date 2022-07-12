@@ -19,6 +19,7 @@ export const HomePage = () => {
 		}
 	}, [isAuth, navigate]);
 
+	
 	return (
 		<Wrapper>
 			<div className='home-page__wrapper'>

@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { ResetPasswordPage } from './pages/reset-password-page';
 import { NewPasswordPage } from './pages/new-password-page';
 import { SuccessEmailVerifPage } from './pages/success-email-verif-page';
+import { VerificationPage } from './pages/verification-page';
 
 export enum PathsEnum {
 	Home = '/',
@@ -16,11 +17,14 @@ export enum PathsEnum {
 	Login = 'login',
 	Success = 'success',
 	NewPassword = 'new-password',
+	Verification = 'verification',
 }
 
 function App() {
 	const location = useLocation();
 	const { isAuth, emailVerified } = useAuth();
+
+
 
 	if (
 		isAuth === false &&
@@ -31,9 +35,10 @@ function App() {
 		return <LoginPage />;
 	}
 
-	if (isAuth && !emailVerified) {
-		return <RegisterPage></RegisterPage>;
-	}
+	// if (isAuth && !emailVerified) {
+	// 	return <RegisterPage></RegisterPage>;
+	// }
+
 
 	return (
 		<>
@@ -42,6 +47,7 @@ function App() {
 			) : (
 				<Routes>
 					<Route index element={<HomePage />} />
+					<Route path={PathsEnum.Verification} element={<VerificationPage />} />
 					<Route path={PathsEnum.Register}>
 						<Route index element={<RegisterPage />} />
 						<Route
