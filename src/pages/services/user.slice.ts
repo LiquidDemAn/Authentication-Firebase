@@ -36,8 +36,16 @@ export const userSlice = createSlice({
 		setAuthStatus(state, { payload }: PayloadAction<null | boolean>) {
 			state.isAuth = payload;
 		},
+		setEmailVerified(state) {
+			state.emailVerified = true;
+		},
 	},
 });
 
-export const { setUser, removeUser, setError, setAuthStatus } =
-	userSlice.actions;
+export const {
+	setUser,
+	removeUser,
+	setError,
+	setAuthStatus,
+	setEmailVerified,
+} = userSlice.actions;

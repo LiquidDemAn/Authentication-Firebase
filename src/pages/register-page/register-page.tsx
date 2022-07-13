@@ -7,7 +7,6 @@ import {
 	getAuth,
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
-	AuthCredential,
 } from 'firebase/auth';
 import { setError } from '../services/user.slice';
 import { Wrapper } from '../../components/common/wrapper';

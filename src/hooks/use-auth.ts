@@ -1,16 +1,12 @@
-import { useSelector } from 'react-redux';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getAuthStatus } from './../pages/services/selectors';
-import { useAppDispatch } from './../store/hooks';
+import { useAppDispatch, useAppSelector } from './../store/hooks';
 import { setAuthStatus, setUser } from '../pages/services/user.slice';
 
 export const useAuth = () => {
 	const auth = getAuth();
 	const dispatch = useAppDispatch();
-	const isAuth = useSelector(getAuthStatus);
-	const user = auth.currentUser;
-	const emailVerified = user?.emailVerified;
-
+	const isAuth = useAppSelector(getAuthStatus);
 	console.log(auth.currentUser);
 
 	onAuthStateChanged(auth, (user) => {
@@ -34,6 +30,5 @@ export const useAuth = () => {
 
 	return {
 		isAuth,
-		emailVerified,
 	};
 };

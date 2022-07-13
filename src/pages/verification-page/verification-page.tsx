@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { PathsEnum } from '../../App';
 import { useQuery } from '../../hooks/use-query';
 import { Link } from 'react-router-dom';
+import { FirebaseError } from 'firebase/app';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setError } from '../services/user.slice';
+import { ErrorsEnum } from '../services/typedef';
+import { getEmailVerifiedStatus, getError } from '../services/selectors';
 
 enum ModeEnum {
 	VerifyEmail = 'verifyEmail',
@@ -11,60 +16,72 @@ enum ModeEnum {
 }
 
 export const VerificationPage = () => {
+	const dispatch = useAppDispatch();
 	const auth = getAuth();
-	const user = auth.currentUser;
 	const navigate = useNavigate();
 	const query = useQuery();
 	const mode = query.get('mode');
 	const oobCode = query.get('oobCode');
+	const error = useAppSelector(getError);
+	const emailVerified = useAppSelector(getEmailVerifiedStatus);
 
-	console.log(mode);
-	console.log(oobCode);
-
-	// useEffect(() => {
-	// 	if (mode === ModeEnum.VerifyEmail) {
-	// 		navigate(
-	// 			`/${PathsEnum.Register}/${PathsEnum.Success}?mode=${ModeEnum.VerifyEmail}&oobCode=${oobCode}`
-	// 		);
-	// 	}
-
-	// 	if (mode === ModeEnum.ResetPassword) {
-	// 		navigate(
-	// 			`/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}?oobCode=${oobCode}`
-	// 		);
-	// 	}
-	// }, [mode, oobCode, navigate]);
+	useEffect(() => {
+		if (
+			(error === ErrorsEnum.ExpiredActionCode ||
+				error === ErrorsEnum.ActionCodeUsed) &&
+			mode === ModeEnum.VerifyEmail &&
+			emailVerified
+		) {
+			navigate(`/${PathsEnum.Register}/${PathsEnum.Success}`);
+		}
+	}, [error, emailVerified, navigate, mode]);
 
 	useEffect(() => {
 		if (oobCode) {
-			if (mode === ModeEnum.VerifyEmail) {
-				applyActionCode(auth, oobCode)
-					.then(() => {
-						navigate(`/${PathsEnum.Register}/${PathsEnum.Success}`);
-					})
-					.catch((error) => console.log(error));
-			}
+			applyActionCode(auth, oobCode)
+				.then(() => {
+					auth.currentUser?.reload();
 
-			if (mode === ModeEnum.ResetPassword) {
-				applyActionCode(auth, oobCode)
-					.then(() => {
+					if (mode === ModeEnum.VerifyEmail) {
+						navigate(`/${PathsEnum.Register}/${PathsEnum.Success}`);
+					}
+					if (mode === ModeEnum.ResetPassword) {
 						navigate(
 							`/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}?oobCode=${oobCode}`
 						);
-					})
-					.catch((error) => console.log(error));
-			}
+					}
+				})
+				.catch((error: FirebaseError) => {
+					const errorCode = error.code;
+					console.log(errorCode);
+					dispatch(setError(errorCode as ErrorsEnum));
+				});
 		}
-	}, [oobCode]);
+	}, [oobCode, mode, auth, dispatch, navigate]);
 
-	// useEffect(() => {
-	// 	applyActionCode(auth, oobCode!);
-	// 	console.log(user);
-	// }, [user]);
-
-	return (
-		<div>
-			<Link to={PathsEnum.Host}>Home</Link>
-		</div>
-	);
+	if (
+		error === ErrorsEnum.ExpiredActionCode ||
+		error === ErrorsEnum.ActionCodeUsed
+	) {
+		return (
+			<>
+				<h2>Error!</h2>
+				<p>Activation code is invalid or link is expired.</p>
+				{mode === ModeEnum.VerifyEmail && (
+					<p>
+						You must verify your email again! Go to Verify Page and click
+						"Resend Leter"{' '}
+						<Link to={`/${PathsEnum.Register}`}>Go to Verify</Link>
+					</p>
+				)}
+				{mode === ModeEnum.ResetPassword && (
+					<p>
+						You must reset your password again!{' '}
+						<Link to={`/${PathsEnum.ResetPassword}`}>Go to Reset Page.</Link>
+					</p>
+				)}
+			</>
+		);
+	}
+	return <h2>Redirecting.....</h2>;
 };

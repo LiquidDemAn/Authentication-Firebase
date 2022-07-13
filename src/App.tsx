@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { HomePage } from './pages/home-page';
 import { RegisterPage } from './pages/register-page';
 import { LoginPage } from './pages/login-page';
@@ -8,6 +8,9 @@ import { ResetPasswordPage } from './pages/reset-password-page';
 import { NewPasswordPage } from './pages/new-password-page';
 import { SuccessEmailVerifPage } from './pages/success-email-verif-page';
 import { VerificationPage } from './pages/verification-page';
+import { useAppSelector } from './store/hooks';
+import { getEmailVerifiedStatus } from './pages/services/selectors';
+import { useEffect } from 'react';
 
 export enum PathsEnum {
 	Home = '/',
@@ -21,24 +24,32 @@ export enum PathsEnum {
 }
 
 function App() {
+	const navigate = useNavigate();
 	const location = useLocation();
-	const { isAuth, emailVerified } = useAuth();
+	const emailVerified = useAppSelector(getEmailVerifiedStatus);
+	const { isAuth } = useAuth();
 
+	useEffect(() => {
+		if (
+			isAuth === false &&
+			location.pathname !== `/${PathsEnum.Register}` &&
+			location.pathname !== `/${PathsEnum.ResetPassword}` &&
+			location.pathname !==
+				`/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}`
+		) {
+			navigate(PathsEnum.Login);
+		}
 
+		console.log(location.pathname);
 
-	if (
-		isAuth === false &&
-		location.pathname !== `/${PathsEnum.Register}` &&
-		location.pathname !== `/${PathsEnum.ResetPassword}` &&
-		location.pathname !== `/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}`
-	) {
-		return <LoginPage />;
-	}
-
-	// if (isAuth && !emailVerified) {
-	// 	return <RegisterPage></RegisterPage>;
-	// }
-
+		if (
+			location.pathname !== `/${PathsEnum.Verification}` &&
+			isAuth &&
+			!emailVerified
+		) {
+			navigate(PathsEnum.Register);
+		}
+	}, [isAuth, emailVerified, navigate, location.pathname]);
 
 	return (
 		<>

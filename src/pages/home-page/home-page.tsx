@@ -13,13 +13,12 @@ export const HomePage = () => {
 	const navigate = useNavigate();
 	const auth = getAuth();
 
-	useEffect(() => {
-		if (isAuth === false) {
-			navigate(`${PathsEnum.Login}`);
-		}
-	}, [isAuth, navigate]);
+	// useEffect(() => {
+	// 	if (isAuth === false) {
+	// 		navigate(`${PathsEnum.Login}`);
+	// 	}
+	// }, [isAuth, navigate]);
 
-	
 	return (
 		<Wrapper>
 			<div className='home-page__wrapper'>

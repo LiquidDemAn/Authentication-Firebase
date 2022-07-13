@@ -33,7 +33,7 @@ export const LoginPage = () => {
 		event.preventDefault();
 
 		signInWithEmailAndPassword(auth, email, password)
-			.then()
+			.then(() => {})
 			.catch((error: FirebaseError) => {
 				console.log(error.code);
 				dispatch(setError(error.code as ErrorsEnum));
@@ -56,7 +56,8 @@ export const LoginPage = () => {
 				/>
 			</>
 			<span>
-				Don't have an account? <Link to={PathsEnum.Register}>Sign Up</Link>
+				Don't have an account?{' '}
+				<Link to={`/${PathsEnum.Register}`}>Sign Up</Link>
 			</span>
 		</Wrapper>
 	);

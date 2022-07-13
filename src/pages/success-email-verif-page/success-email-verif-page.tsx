@@ -3,14 +3,20 @@ import { Link } from 'react-router-dom';
 import { Wrapper } from '../../components/common/wrapper';
 import { getAuth } from 'firebase/auth';
 import { useEffect } from 'react';
+import { useAppDispatch } from '../../store/hooks';
+import { setEmailVerified } from '../services/user.slice';
 
 export const SuccessEmailVerifPage = () => {
 	const auth = getAuth();
+	const dispatch = useAppDispatch();
 	const currentUser = auth.currentUser;
+	const emailVerified = currentUser?.emailVerified;
 
 	useEffect(() => {
-		currentUser?.reload();
-	}, [currentUser]);
+		if (emailVerified) {
+			dispatch(setEmailVerified());
+		}
+	}, [emailVerified, dispatch]);
 
 	return (
 		<Wrapper>
