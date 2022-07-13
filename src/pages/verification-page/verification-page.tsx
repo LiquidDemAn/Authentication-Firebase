@@ -1,5 +1,5 @@
 import { applyActionCode, getAuth } from 'firebase/auth';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PathsEnum } from '../../App';
 import { useQuery } from '../../hooks/use-query';
@@ -43,7 +43,9 @@ export const VerificationPage = () => {
 					auth.currentUser?.reload();
 
 					if (mode === ModeEnum.VerifyEmail) {
-						navigate(`/${PathsEnum.Register}/${PathsEnum.Success}`);
+						navigate(
+							`/${PathsEnum.Register}/${PathsEnum.Success}?oobCode=${oobCode}`
+						);
 					}
 					if (mode === ModeEnum.ResetPassword) {
 						navigate(
@@ -69,15 +71,15 @@ export const VerificationPage = () => {
 				<p>Activation code is invalid or link is expired.</p>
 				{mode === ModeEnum.VerifyEmail && (
 					<p>
-						You must verify your email again! Go to Verify Page and click
+						You must verify your email again! Go to Register Page and click
 						"Resend Leter"{' '}
-						<Link to={`/${PathsEnum.Register}`}>Go to Verify</Link>
+						<Link to={`/${PathsEnum.Register}`}>Go to Register.</Link>
 					</p>
 				)}
 				{mode === ModeEnum.ResetPassword && (
 					<p>
 						You must reset your password again!{' '}
-						<Link to={`/${PathsEnum.ResetPassword}`}>Go to Reset Page.</Link>
+						<Link to={`/${PathsEnum.ResetPassword}`}>Go to Reset.</Link>
 					</p>
 				)}
 			</>

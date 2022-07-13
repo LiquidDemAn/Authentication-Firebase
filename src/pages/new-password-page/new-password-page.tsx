@@ -1,5 +1,4 @@
 import { FormTitle } from '../../components/common/form-title';
-import { Wrapper } from '../../components/common/wrapper';
 import { NewPasswordForm } from '../../components/new-password/new-password-form';
 import { useQuery } from '../../hooks/use-query';
 import { confirmPasswordReset, getAuth } from 'firebase/auth';
@@ -63,7 +62,7 @@ export const NewPasswordPage = () => {
 	};
 
 	return (
-		<Wrapper>
+		<>
 			{/* Errors */}
 			{error === ErrorsEnum.PasswordsNotMatch ? (
 				<Alert variant='warning'>Passwords do not match!</Alert>
@@ -98,7 +97,7 @@ export const NewPasswordPage = () => {
 			{/* /Errors */}
 
 			<FormTitle>Confirm New Password</FormTitle>
-			
+
 			{success ? (
 				<span>
 					Password successfully changed!{' '}
@@ -110,6 +109,6 @@ export const NewPasswordPage = () => {
 					<Link to={`/${PathsEnum.Login}`}>Go to Login?</Link>
 				</>
 			)}
-		</Wrapper>
+		</>
 	);
 };

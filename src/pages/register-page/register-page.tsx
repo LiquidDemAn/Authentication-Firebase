@@ -9,7 +9,6 @@ import {
 	sendEmailVerification,
 } from 'firebase/auth';
 import { setError } from '../services/user.slice';
-import { Wrapper } from '../../components/common/wrapper';
 import {
 	getAuthStatus,
 	getEmailVerifiedStatus,
@@ -78,7 +77,7 @@ export const RegisterPage = () => {
 	};
 
 	return (
-		<Wrapper>
+		<>
 			{isAuth && !emailVerifiedStatus ? (
 				<>
 					{resendStatus && <Alert variant='success'>Letter Resend!</Alert>}
@@ -107,6 +106,6 @@ export const RegisterPage = () => {
 					</span>
 				</>
 			)}
-		</Wrapper>
+		</>
 	);
 };

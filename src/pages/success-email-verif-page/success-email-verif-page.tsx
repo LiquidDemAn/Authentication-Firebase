@@ -1,28 +1,32 @@
 import { PathsEnum } from '../../App';
-import { Link } from 'react-router-dom';
-import { Wrapper } from '../../components/common/wrapper';
-import { getAuth } from 'firebase/auth';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setEmailVerified } from '../services/user.slice';
+import { useQuery } from '../../hooks/use-query';
+import { getEmailVerifiedStatus } from '../services/selectors';
 
 export const SuccessEmailVerifPage = () => {
-	const auth = getAuth();
 	const dispatch = useAppDispatch();
-	const currentUser = auth.currentUser;
-	const emailVerified = currentUser?.emailVerified;
+	const navigate = useNavigate();
+	const query = useQuery();
+	const emailVerified = useAppSelector(getEmailVerifiedStatus);
+	const oobCode = query.get('oobCode');
 
 	useEffect(() => {
-		if (emailVerified) {
+		if (!oobCode && !emailVerified) {
+			navigate(`/${PathsEnum.Register}`);
+		} else {
 			dispatch(setEmailVerified());
 		}
-	}, [emailVerified, dispatch]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [oobCode]);
 
 	return (
-		<Wrapper>
-			<h3>Success</h3>
+		<>
+			<h2>Success</h2>
 			<span>Email Successfully verified!</span>
 			<Link to={PathsEnum.Home}>Go to Home Page.</Link>
-		</Wrapper>
+		</>
 	);
 };

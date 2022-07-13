@@ -11,6 +11,7 @@ import { VerificationPage } from './pages/verification-page';
 import { useAppSelector } from './store/hooks';
 import { getEmailVerifiedStatus } from './pages/services/selectors';
 import { useEffect } from 'react';
+import { Wrapper } from './components/common/wrapper';
 
 export enum PathsEnum {
 	Home = '/',
@@ -27,7 +28,7 @@ function App() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const emailVerified = useAppSelector(getEmailVerifiedStatus);
-	const { isAuth } = useAuth();
+	const isAuth = useAuth();
 
 	useEffect(() => {
 		if (
@@ -44,6 +45,7 @@ function App() {
 
 		if (
 			location.pathname !== `/${PathsEnum.Verification}` &&
+			location.pathname !== `/${PathsEnum.Register}/${PathsEnum.Success}` &&
 			isAuth &&
 			!emailVerified
 		) {
@@ -52,7 +54,7 @@ function App() {
 	}, [isAuth, emailVerified, navigate, location.pathname]);
 
 	return (
-		<>
+		<Wrapper>
 			{isAuth === null ? (
 				<></>
 			) : (
@@ -73,7 +75,7 @@ function App() {
 					</Route>
 				</Routes>
 			)}
-		</>
+		</Wrapper>
 	);
 }
 
