@@ -1,3 +1,4 @@
+import './new-password-page.scss';
 import { FormTitle } from '../../components/common/form-title';
 import { NewPasswordForm } from '../../components/new-password/new-password-form';
 import { useQuery } from '../../hooks/use-query';
@@ -62,7 +63,7 @@ export const NewPasswordPage = () => {
 	};
 
 	return (
-		<>
+		<div className='new-password__wrapper'>
 			{/* Errors */}
 			{error === ErrorsEnum.PasswordsNotMatch ? (
 				<Alert variant='warning'>Passwords do not match!</Alert>
@@ -99,16 +100,16 @@ export const NewPasswordPage = () => {
 			<FormTitle>Confirm New Password</FormTitle>
 
 			{success ? (
-				<span>
+				<p className='new-password__text'>
 					Password successfully changed!{' '}
 					<Link to={`/${PathsEnum.Login}`}>Go to Login?</Link>
-				</span>
+				</p>
 			) : (
 				<>
 					<NewPasswordForm onSubmit={onSubmit} />
 					<Link to={`/${PathsEnum.Login}`}>Go to Login?</Link>
 				</>
 			)}
-		</>
+		</div>
 	);
 };

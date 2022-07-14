@@ -34,6 +34,7 @@ function App() {
 		if (
 			isAuth === false &&
 			location.pathname !== `/${PathsEnum.Register}` &&
+			location.pathname !== `/${PathsEnum.Verification}` &&
 			location.pathname !== `/${PathsEnum.ResetPassword}` &&
 			location.pathname !==
 				`/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}`
