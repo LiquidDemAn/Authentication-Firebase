@@ -1,14 +1,15 @@
+import './verification-page.scss';
 import { applyActionCode, getAuth } from 'firebase/auth';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PathsEnum } from '../../App';
 import { useQuery } from '../../hooks/use-query';
-import { Link } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setError } from '../services/user.slice';
 import { ErrorsEnum } from '../services/typedef';
 import { getEmailVerifiedStatus, getError } from '../services/selectors';
+import { Button } from 'react-bootstrap';
 
 enum ModeEnum {
 	VerifyEmail = 'verifyEmail',
@@ -54,35 +55,49 @@ export const VerificationPage = () => {
 					}
 				})
 				.catch((error: FirebaseError) => {
-					const errorCode = error.code;
-					console.log(errorCode);
-					dispatch(setError(errorCode as ErrorsEnum));
+					dispatch(setError(error.code as ErrorsEnum));
 				});
 		}
 	}, [oobCode, mode, auth, dispatch, navigate]);
+
+	const registerRedirect = () => {
+		navigate(`/${PathsEnum.Register}`);
+	};
+
+	const resetPasswordRedirect = () => {
+		navigate(`/${PathsEnum.ResetPassword}`);
+	};
 
 	if (
 		error === ErrorsEnum.ExpiredActionCode ||
 		error === ErrorsEnum.ActionCodeUsed
 	) {
 		return (
-			<>
-				<h2>Error!</h2>
-				<p>Activation code is invalid or link is expired.</p>
+			<div className='verification-page__wrapper'>
+				<h2 className='verification-page__title'>Error!</h2>
+				<span className='verification-page__subtitle'>
+					Activation code is invalid or link is expired.
+				</span>
 				{mode === ModeEnum.VerifyEmail && (
-					<p>
-						You must verify your email again! Go to Register Page and click
-						"Resend Leter"{' '}
-						<Link to={`/${PathsEnum.Register}`}>Go to Register.</Link>
-					</p>
+					<>
+						<p className='verification-page__text'>
+							You must verify your email again! Go to Register Page and click
+							"Resend Leter"{' '}
+						</p>
+						<Button variant='primary' onClick={registerRedirect}>
+							Go to Register
+						</Button>
+					</>
 				)}
 				{mode === ModeEnum.ResetPassword && (
-					<p>
+					<p className='verification-page__text'>
 						You must reset your password again!{' '}
-						<Link to={`/${PathsEnum.ResetPassword}`}>Go to Reset.</Link>
+						<Button variant='primary' onClick={resetPasswordRedirect}>
+							Go to Reset
+						</Button>
 					</p>
 				)}
-			</>
+			</div>
 		);
 	}
 	return <h2>Redirecting.....</h2>;

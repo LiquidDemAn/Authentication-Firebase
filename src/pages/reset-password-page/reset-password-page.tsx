@@ -5,7 +5,6 @@ import { Alert } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { Verification } from '../../components/common/verification';
 import { VerificationEnum } from '../../components/common/verification/verification';
-import { Wrapper } from '../../components/common/wrapper';
 import { ResetPasswordForm } from '../../components/reset-password/reset-password-form';
 import { useAppSelector } from '../../store/hooks';
 import { getError, getAuthStatus } from '../services/selectors';
@@ -64,30 +63,28 @@ export const ResetPasswordPage = () => {
 	};
 
 	return (
-		<Wrapper>
-			<>
-				{error === ErrorsEnum.UserNotFoundError && (
-					<Alert variant='danger'>User Not Found!</Alert>
-				)}
+		<>
+			{error === ErrorsEnum.UserNotFoundError && (
+				<Alert variant='danger'>User Not Found!</Alert>
+			)}
 
-				{resendStatus && <Alert variant='success'>Letter Resend!</Alert>}
+			{resendStatus && <Alert variant='success'>Letter Resend!</Alert>}
 
-				{sent ? (
-					<Verification
-						title='Reset Password'
-						email={emailRef.current}
-						type={VerificationEnum.ResetPassword}
-						resendHandle={resendHandle}
-						resendStatus={resendStatus}
-					/>
-				) : (
-					<>
-						<FormTitle>Reset Password</FormTitle>
-						<ResetPasswordForm onClick={sendHandle} />
-						<Link to={`/${PathsEnum.Login}`}>Back to Login?</Link>
-					</>
-				)}
-			</>
-		</Wrapper>
+			{sent ? (
+				<Verification
+					title='Reset Password'
+					email={emailRef.current}
+					type={VerificationEnum.ResetPassword}
+					resendHandle={resendHandle}
+					resendStatus={resendStatus}
+				/>
+			) : (
+				<>
+					<FormTitle>Reset Password</FormTitle>
+					<ResetPasswordForm onClick={sendHandle} />
+					<Link to={`/${PathsEnum.Login}`}>Back to Login?</Link>
+				</>
+			)}
+		</>
 	);
 };

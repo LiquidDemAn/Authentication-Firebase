@@ -47,7 +47,7 @@ export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
 				<Password error={error} passwordRef={passwordRef} />
 
 				{formId === AuthFormIdEnum.Login && (
-					<Link to={PathsEnum.ResetPassword}>Forgot password?</Link>
+					<Link to={`/${PathsEnum.ResetPassword}`}>Forgot password?</Link>
 				)}
 
 				<Button

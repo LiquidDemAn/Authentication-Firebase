@@ -1,13 +1,13 @@
+import './success-email-verif-page.scss';
 import { PathsEnum } from '../../App';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setEmailVerified } from '../services/user.slice';
+import { useAppSelector } from '../../store/hooks';
 import { useQuery } from '../../hooks/use-query';
 import { getEmailVerifiedStatus } from '../services/selectors';
+import { Button } from 'react-bootstrap';
 
 export const SuccessEmailVerifPage = () => {
-	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const query = useQuery();
 	const emailVerified = useAppSelector(getEmailVerifiedStatus);
@@ -16,17 +16,20 @@ export const SuccessEmailVerifPage = () => {
 	useEffect(() => {
 		if (!oobCode && !emailVerified) {
 			navigate(`/${PathsEnum.Register}`);
-		} else {
-			dispatch(setEmailVerified());
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [oobCode]);
+	}, [oobCode, emailVerified, navigate]);
+
+	const onClick = () => {
+		window.open(PathsEnum.Host, '_self');
+	};
 
 	return (
-		<>
-			<h2>Success</h2>
-			<span>Email Successfully verified!</span>
-			<Link to={PathsEnum.Home}>Go to Home Page.</Link>
-		</>
+		<div className='success-email__wrapper'>
+			<h2 className='success-email__title'>Success!</h2>
+			<p className='success-emai__text'>Email Successfully verified!</p>
+			<Button variant='success' onClick={onClick}>
+				Go to Home Page
+			</Button>
+		</div>
 	);
 };
