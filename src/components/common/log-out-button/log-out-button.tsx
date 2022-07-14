@@ -3,11 +3,8 @@ import { getAuth, signOut } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { useAppDispatch } from '../../../store/hooks';
 import { removeUser } from '../../../pages/services/user.slice';
-import { useNavigate } from 'react-router-dom';
-import { PathsEnum } from '../../../App';
 
 export const LogOutButton = () => {
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const auth = getAuth();
 
@@ -15,7 +12,6 @@ export const LogOutButton = () => {
 		signOut(auth)
 			.then(() => {
 				dispatch(removeUser());
-				navigate(PathsEnum.Login);
 			})
 			.catch((error: FirebaseError) => {
 				console.error(`LogOut Error: ${error.code}`);

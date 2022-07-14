@@ -1,0 +1,16 @@
+.success-email__wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	row-gap: 15px;
+}
+
+.success-email__title {
+	font-weight: 700;
+	font-size: 32px;
+}
+
+.success-emai__text {
+	font-size: 28px;
+}

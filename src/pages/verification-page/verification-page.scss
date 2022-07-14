@@ -1,0 +1,21 @@
+.verification-page__wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	row-gap: 10px;
+}
+
+.verification-page__title {
+	font-size: 32px;
+	font-weight: 700;
+}
+
+.verification-page__subtitle {
+	font-size: 28px;
+}
+
+.verification-page__text {
+	font-size: 24px;
+}

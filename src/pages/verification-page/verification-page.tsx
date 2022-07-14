@@ -1,61 +1,104 @@
-import { getAuth, sendEmailVerification } from 'firebase/auth';
-import { Verification } from '../../components/common/verification';
-import { VerificationEnum } from '../../components/common/verification/verification';
-import { Wrapper } from '../../components/common/wrapper';
+import './verification-page.scss';
+import { applyActionCode, getAuth } from 'firebase/auth';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PathsEnum } from '../../App';
+import { useQuery } from '../../hooks/use-query';
 import { FirebaseError } from 'firebase/app';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setError } from '../services/user.slice';
 import { ErrorsEnum } from '../services/typedef';
-import { useAppSelector } from '../../store/hooks';
-import {
-	getAuthStatus,
-	getEmailVerifiedStatus,
-	getUser,
-} from '../services/selectors';
-import { PathsEnum } from '../../App';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { getEmailVerifiedStatus, getError } from '../services/selectors';
+import { Button } from 'react-bootstrap';
+
+enum ModeEnum {
+	VerifyEmail = 'verifyEmail',
+	ResetPassword = 'resetPassword',
+}
 
 export const VerificationPage = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
+	const auth = getAuth();
 	const navigate = useNavigate();
-	const user = useAppSelector(getUser);
-	const verified = useAppSelector(getEmailVerifiedStatus);
-	const isAuth = useAppSelector(getAuthStatus);
-	const [resendStatus, setResendStatus] = useState(false);
+	const query = useQuery();
+	const mode = query.get('mode');
+	const oobCode = query.get('oobCode');
+	const error = useAppSelector(getError);
+	const emailVerified = useAppSelector(getEmailVerifiedStatus);
 
 	useEffect(() => {
-		if (isAuth === false) {
-			navigate(PathsEnum.Home);
+		if (
+			(error === ErrorsEnum.ExpiredActionCode ||
+				error === ErrorsEnum.ActionCodeUsed) &&
+			mode === ModeEnum.VerifyEmail &&
+			emailVerified
+		) {
+			navigate(`/${PathsEnum.Register}/${PathsEnum.Success}`);
 		}
-	}, [isAuth, navigate]);
+	}, [error, emailVerified, navigate, mode]);
 
-	const resendHandle = () => {
-		const auth = getAuth();
-		const currnetUser = auth.currentUser;
-
-		if (currnetUser) {
-			sendEmailVerification(currnetUser, { url: PathsEnum.Host })
+	useEffect(() => {
+		if (oobCode) {
+			applyActionCode(auth, oobCode)
 				.then(() => {
-					setResendStatus(true);
+					auth.currentUser?.reload();
+
+					if (mode === ModeEnum.VerifyEmail) {
+						navigate(
+							`/${PathsEnum.Register}/${PathsEnum.Success}?oobCode=${oobCode}`
+						);
+					}
+					if (mode === ModeEnum.ResetPassword) {
+						navigate(
+							`/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}?oobCode=${oobCode}`
+						);
+					}
 				})
 				.catch((error: FirebaseError) => {
-					const errorCode = error.code;
-					console.log(errorCode);
-					dispatch(setError(errorCode as ErrorsEnum));
+					dispatch(setError(error.code as ErrorsEnum));
 				});
 		}
+	}, [oobCode, mode, auth, dispatch, navigate]);
+
+	const registerRedirect = () => {
+		navigate(`/${PathsEnum.Register}`);
 	};
 
-	return (
-		<Wrapper>
-			<Verification
-				email={user.email}
-				resendStatus={resendStatus}
-				verified={verified}
-				type={VerificationEnum.Register}
-				resendHandle={resendHandle}
-			/>
-		</Wrapper>
-	);
+	const resetPasswordRedirect = () => {
+		navigate(`/${PathsEnum.ResetPassword}`);
+	};
+
+	if (
+		error === ErrorsEnum.ExpiredActionCode ||
+		error === ErrorsEnum.ActionCodeUsed
+	) {
+		return (
+			<div className='verification-page__wrapper'>
+				<h2 className='verification-page__title'>Error!</h2>
+				<span className='verification-page__subtitle'>
+					Activation code is invalid or link is expired.
+				</span>
+				{mode === ModeEnum.VerifyEmail && (
+					<>
+						<p className='verification-page__text'>
+							You must verify your email again! Go to Register Page and click
+							"Resend Leter"{' '}
+						</p>
+						<Button variant='primary' onClick={registerRedirect}>
+							Go to Register
+						</Button>
+					</>
+				)}
+				{mode === ModeEnum.ResetPassword && (
+					<p className='verification-page__text'>
+						You must reset your password again!{' '}
+						<Button variant='primary' onClick={resetPasswordRedirect}>
+							Go to Reset
+						</Button>
+					</p>
+				)}
+			</div>
+		);
+	}
+	return <h2>Redirecting.....</h2>;
 };

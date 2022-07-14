@@ -4,7 +4,6 @@ import { AuthForm } from '../../components/common/auth-form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { setError } from '../services/user.slice';
-import { Wrapper } from '../../components/common/wrapper';
 import { ErrorsEnum } from '../services/typedef';
 import { getError, getAuthStatus } from '../services/selectors';
 import { FirebaseError } from 'firebase/app';
@@ -41,23 +40,22 @@ export const LoginPage = () => {
 	};
 
 	return (
-		<Wrapper>
-			<>
-				{error === ErrorsEnum.UserNotFoundError && (
-					<Alert variant='warning'>
-						User not found! Go to <Link to={PathsEnum.Register}>Register</Link>
-					</Alert>
-				)}
-				<AuthForm
-					formId={AuthFormIdEnum.Login}
-					title='Login to your account'
-					btnName='Login now'
-					handleClick={handleLogin}
-				/>
-			</>
+		<>
+			{error === ErrorsEnum.UserNotFoundError && (
+				<Alert variant='warning'>
+					User not found! Go to <Link to={PathsEnum.Register}>Register</Link>
+				</Alert>
+			)}
+			<AuthForm
+				formId={AuthFormIdEnum.Login}
+				title='Login to your account'
+				btnName='Login now'
+				handleClick={handleLogin}
+			/>
 			<span>
-				Don't have an account? <Link to={PathsEnum.Register}>Sign Up</Link>
+				Don't have an account?{' '}
+				<Link to={`/${PathsEnum.Register}`}>Sign Up</Link>
 			</span>
-		</Wrapper>
+		</>
 	);
 };
