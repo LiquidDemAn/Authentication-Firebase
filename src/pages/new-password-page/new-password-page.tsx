@@ -100,10 +100,10 @@ export const NewPasswordPage = () => {
 			<FormTitle>Confirm New Password</FormTitle>
 
 			{success ? (
-				<p className='new-password__text'>
-					Password successfully changed!{' '}
+				<>
+					<p className='new-password__text'>Password successfully changed! </p>
 					<Link to={`/${PathsEnum.Login}`}>Go to Login?</Link>
-				</p>
+				</>
 			) : (
 				<>
 					<NewPasswordForm onSubmit={onSubmit} />
