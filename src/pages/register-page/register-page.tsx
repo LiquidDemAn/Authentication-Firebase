@@ -21,6 +21,7 @@ import { PathsEnum } from '../../App';
 import { Alert } from 'react-bootstrap';
 import { Verification } from '../../components/common/verification';
 import { VerificationEnum } from '../../components/common/verification/verification';
+import { LetterResendAlert } from '../../components/alerts/letter-resend-alert';
 
 export const RegisterPage = () => {
 	const auth = getAuth();
@@ -80,7 +81,7 @@ export const RegisterPage = () => {
 		<>
 			{isAuth && !emailVerifiedStatus ? (
 				<>
-					{resendStatus && <Alert variant='success'>Letter Resend!</Alert>}
+					{resendStatus && <LetterResendAlert />}
 
 					<Verification
 						title='Email'
