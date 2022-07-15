@@ -14,6 +14,7 @@ import { Alert } from 'react-bootstrap';
 import { PathsEnum } from '../../App';
 import { Link, useNavigate } from 'react-router-dom';
 import { PasswordsNotMatchAlert } from '../../components/alerts/passwords-not-match-alert';
+import { WeakPasswordAlert } from '../../components/alerts/weak-password-alert';
 
 export const NewPasswordPage = () => {
 	const dispatch = useDispatch();
@@ -68,9 +69,7 @@ export const NewPasswordPage = () => {
 			{/* Errors */}
 			{error === ErrorsEnum.PasswordsNotMatch && <PasswordsNotMatchAlert />}
 
-			{error === ErrorsEnum.WeakPassword && (
-				<Alert variant='warning'>Weak password!</Alert>
-			)}
+			{error === ErrorsEnum.WeakPassword && <WeakPasswordAlert />}
 
 			{error === ErrorsEnum.ExpiredActionCode && (
 				<Alert variant='danger'>
