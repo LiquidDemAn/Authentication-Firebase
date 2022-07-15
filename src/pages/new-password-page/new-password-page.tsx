@@ -13,6 +13,7 @@ import { ErrorsEnum } from '../services/typedef';
 import { Alert } from 'react-bootstrap';
 import { PathsEnum } from '../../App';
 import { Link, useNavigate } from 'react-router-dom';
+import { PasswordsNotMatchAlert } from '../../components/alerts/passwords-not-match-alert';
 
 export const NewPasswordPage = () => {
 	const dispatch = useDispatch();
@@ -65,35 +66,25 @@ export const NewPasswordPage = () => {
 	return (
 		<div className='new-password__wrapper'>
 			{/* Errors */}
-			{error === ErrorsEnum.PasswordsNotMatch ? (
-				<Alert variant='warning'>Passwords do not match!</Alert>
-			) : (
-				<></>
-			)}
+			{error === ErrorsEnum.PasswordsNotMatch && <PasswordsNotMatchAlert />}
 
-			{error === ErrorsEnum.WeakPassword ? (
+			{error === ErrorsEnum.WeakPassword && (
 				<Alert variant='warning'>Weak password!</Alert>
-			) : (
-				<></>
 			)}
 
-			{error === ErrorsEnum.ExpiredActionCode ? (
+			{error === ErrorsEnum.ExpiredActionCode && (
 				<Alert variant='danger'>
 					The link has expired! You must confirm your mail again. Go back to{' '}
 					<Link to={`/${PathsEnum.ResetPassword}`}>Reset page</Link>
 				</Alert>
-			) : (
-				<></>
 			)}
 
-			{error === ErrorsEnum.ActionCodeUsed ? (
+			{error === ErrorsEnum.ActionCodeUsed && (
 				<Alert variant='danger'>
 					This link has already been used to change your password. If you forgot
 					your password, go to the{' '}
 					<Link to={`/${PathsEnum.ResetPassword}`}>Reset page</Link>
 				</Alert>
-			) : (
-				<></>
 			)}
 			{/* /Errors */}
 

@@ -42,6 +42,7 @@ export const LoginPage = () => {
 	return (
 		<>
 			{error === ErrorsEnum.UserNotFoundError && <UserNotFoundAlert />}
+			
 			<AuthForm
 				formId={AuthFormIdEnum.Login}
 				title='Login to your account'
