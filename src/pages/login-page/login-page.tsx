@@ -9,7 +9,7 @@ import { getError, getAuthStatus } from '../services/selectors';
 import { FirebaseError } from 'firebase/app';
 import { AuthFormIdEnum } from '../../components/common/auth-form/auth-form';
 import { PathsEnum } from '../../App';
-import { Alert } from 'react-bootstrap';
+import { UserNotFoundAlert } from '../../components/alerts/user-not-found-alert';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
@@ -41,11 +41,7 @@ export const LoginPage = () => {
 
 	return (
 		<>
-			{error === ErrorsEnum.UserNotFoundError && (
-				<Alert variant='warning'>
-					User not found! Go to <Link to={PathsEnum.Register}>Register</Link>
-				</Alert>
-			)}
+			{error === ErrorsEnum.UserNotFoundError && <UserNotFoundAlert />}
 			<AuthForm
 				formId={AuthFormIdEnum.Login}
 				title='Login to your account'
