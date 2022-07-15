@@ -71,14 +71,14 @@ export const NewPasswordPage = () => {
 
 			{error === ErrorsEnum.WeakPassword && <WeakPasswordAlert />}
 
-			{error === ErrorsEnum.ExpiredCode && (
+			{error === ErrorsEnum.ExpiredActionCode && (
 				<Alert variant='danger'>
 					The link has expired! You must confirm your mail again. Go back to{' '}
 					<Link to={`/${PathsEnum.ResetPassword}`}>Reset page</Link>
 				</Alert>
 			)}
 
-			{error === ErrorsEnum.CodeUsed && (
+			{error === ErrorsEnum.ActionCodeUsed && (
 				<Alert variant='danger'>
 					This link has already been used to change your password. If you forgot
 					your password, go to the{' '}

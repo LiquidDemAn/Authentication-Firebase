@@ -32,13 +32,38 @@ export const VerificationPage = () => {
 
 	useEffect(() => {
 		if (
-			(error === ErrorsEnum.ExpiredCode || error === ErrorsEnum.CodeUsed) &&
+			(error === ErrorsEnum.ExpiredActionCode ||
+				error === ErrorsEnum.ActionCodeUsed) &&
 			mode === ModeEnum.VerifyEmail &&
 			emailVerified
 		) {
 			navigate(`/${PathsEnum.Register}/${PathsEnum.Success}`);
 		}
 	}, [error, emailVerified, navigate, mode]);
+
+	// useEffect(() => {
+	// 	if (oobCode) {
+	// 		applyActionCode(auth, oobCode)
+	// 			.then(() => {
+	// 				auth.currentUser?.reload();
+
+	// 				if (mode === ModeEnum.VerifyEmail) {
+	// 					navigate(
+	// 						`/${PathsEnum.Register}/${PathsEnum.Success}?oobCode=${oobCode}`
+	// 					);
+	// 				}
+	// 				if (mode === ModeEnum.ResetPassword) {
+	// 					navigate(
+	// 						`/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}?oobCode=${oobCode}`
+	// 					);
+	// 				}
+	// 			})
+	// 			.catch((error: FirebaseError) => {
+	// 				console.log(error.code);
+	// 				dispatch(setError(error.code as ErrorsEnum));
+	// 			});
+	// 	}
+	// }, [oobCode, mode, auth, dispatch, navigate]);
 
 	useEffect(() => {
 		if (oobCode) {
@@ -78,7 +103,10 @@ export const VerificationPage = () => {
 		navigate(`/${PathsEnum.ResetPassword}`);
 	};
 
-	if (error === ErrorsEnum.ExpiredCode || error === ErrorsEnum.CodeUsed) {
+	if (
+		error === ErrorsEnum.ExpiredActionCode ||
+		error === ErrorsEnum.ActionCodeUsed
+	) {
 		return (
 			<div className='verification-page__wrapper'>
 				<h2 className='verification-page__title'>Error!</h2>

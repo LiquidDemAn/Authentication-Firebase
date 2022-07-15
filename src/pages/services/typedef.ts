@@ -12,9 +12,9 @@ export enum ErrorsEnum {
 	UserNotFoundError = 'auth/user-not-found',
 	EmailAlreadyUse = 'auth/email-already-in-use',
 	PasswordsNotMatch = 'passwords-do-not-match',
-	ExpiredCode = 'auth/expired-action-code',
+	ExpiredActionCode = 'auth/expired-action-code',
 	WeakPassword = 'auth/weak-password',
-	CodeUsed = 'auth/invalid-action-code',
+	ActionCodeUsed = 'auth/invalid-action-code',
 }
 
 export type UserStateType = {
