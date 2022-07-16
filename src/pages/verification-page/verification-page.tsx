@@ -32,8 +32,7 @@ export const VerificationPage = () => {
 
 	useEffect(() => {
 		if (
-			(error === ErrorsEnum.ExpiredActionCode ||
-				error === ErrorsEnum.ActionCodeUsed) &&
+			(error === ErrorsEnum.ExpiredCode || error === ErrorsEnum.CodeUsed) &&
 			mode === ModeEnum.VerifyEmail &&
 			emailVerified
 		) {
@@ -103,10 +102,7 @@ export const VerificationPage = () => {
 		navigate(`/${PathsEnum.ResetPassword}`);
 	};
 
-	if (
-		error === ErrorsEnum.ExpiredActionCode ||
-		error === ErrorsEnum.ActionCodeUsed
-	) {
+	if (error === ErrorsEnum.ExpiredCode || error === ErrorsEnum.CodeUsed) {
 		return (
 			<div className='verification-page__wrapper'>
 				<h2 className='verification-page__title'>Error!</h2>
