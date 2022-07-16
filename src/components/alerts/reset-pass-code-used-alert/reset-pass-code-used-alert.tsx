@@ -2,10 +2,11 @@ import { Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { PathsEnum } from '../../../App';
 
-export const ExpiredCodeAlert = () => {
+export const ResetPassCodeUsedAlert = () => {
 	return (
 		<Alert variant='danger'>
-			The link has expired! You must confirm your mail again. Go back to{' '}
+			This link has already been used to change your password. If you forgot
+			your password, go to the{' '}
 			<Link to={`/${PathsEnum.ResetPassword}`}>Reset page</Link>
 		</Alert>
 	);

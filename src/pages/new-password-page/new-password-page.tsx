@@ -16,6 +16,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { PasswordsNotMatchAlert } from '../../components/alerts/passwords-not-match-alert';
 import { WeakPasswordAlert } from '../../components/alerts/weak-password-alert';
 import { ExpiredCodeAlert } from '../../components/alerts/expired-code-alert';
+import { ResetPassCodeUsedAlert } from '../../components/alerts/reset-pass-code-used-alert';
 
 export const NewPasswordPage = () => {
 	const dispatch = useDispatch();
@@ -69,18 +70,9 @@ export const NewPasswordPage = () => {
 		<div className='new-password__wrapper'>
 			{/* Errors */}
 			{error === ErrorsEnum.PasswordsNotMatch && <PasswordsNotMatchAlert />}
-
 			{error === ErrorsEnum.WeakPassword && <WeakPasswordAlert />}
-
 			{error === ErrorsEnum.ExpiredCode && <ExpiredCodeAlert />}
-
-			{error === ErrorsEnum.CodeUsed && (
-				<Alert variant='danger'>
-					This link has already been used to change your password. If you forgot
-					your password, go to the{' '}
-					<Link to={`/${PathsEnum.ResetPassword}`}>Reset page</Link>
-				</Alert>
-			)}
+			{error === ErrorsEnum.InvalidCode && <ResetPassCodeUsedAlert />}
 			{/* /Errors */}
 
 			<FormTitle>Confirm New Password</FormTitle>
