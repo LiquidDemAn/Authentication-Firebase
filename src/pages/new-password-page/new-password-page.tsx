@@ -10,9 +10,12 @@ import { getError, getAuthStatus } from '../services/selectors';
 import { useEffect, useState } from 'react';
 import { FirebaseError } from 'firebase/app';
 import { ErrorsEnum } from '../services/typedef';
-import { Alert } from 'react-bootstrap';
 import { PathsEnum } from '../../App';
 import { Link, useNavigate } from 'react-router-dom';
+import { PasswordsNotMatchAlert } from '../../components/alerts/passwords-not-match-alert';
+import { WeakPasswordAlert } from '../../components/alerts/weak-password-alert';
+import { ExpiredCodeAlert } from '../../components/alerts/expired-code-alert';
+import { ResetPassCodeUsedAlert } from '../../components/alerts/reset-pass-code-used-alert';
 
 export const NewPasswordPage = () => {
 	const dispatch = useDispatch();
@@ -64,38 +67,12 @@ export const NewPasswordPage = () => {
 
 	return (
 		<div className='new-password__wrapper'>
-			{/* Errors */}
-			{error === ErrorsEnum.PasswordsNotMatch ? (
-				<Alert variant='warning'>Passwords do not match!</Alert>
-			) : (
-				<></>
-			)}
-
-			{error === ErrorsEnum.WeakPassword ? (
-				<Alert variant='warning'>Weak password!</Alert>
-			) : (
-				<></>
-			)}
-
-			{error === ErrorsEnum.ExpiredActionCode ? (
-				<Alert variant='danger'>
-					The link has expired! You must confirm your mail again. Go back to{' '}
-					<Link to={`/${PathsEnum.ResetPassword}`}>Reset page</Link>
-				</Alert>
-			) : (
-				<></>
-			)}
-
-			{error === ErrorsEnum.ActionCodeUsed ? (
-				<Alert variant='danger'>
-					This link has already been used to change your password. If you forgot
-					your password, go to the{' '}
-					<Link to={`/${PathsEnum.ResetPassword}`}>Reset page</Link>
-				</Alert>
-			) : (
-				<></>
-			)}
-			{/* /Errors */}
+			{/* Alerts */}
+			{error === ErrorsEnum.PasswordsNotMatch && <PasswordsNotMatchAlert />}
+			{error === ErrorsEnum.WeakPassword && <WeakPasswordAlert />}
+			{error === ErrorsEnum.ExpiredCode && <ExpiredCodeAlert />}
+			{error === ErrorsEnum.InvalidCode && <ResetPassCodeUsedAlert />}
+			{/* /Alerts */}
 
 			<FormTitle>Confirm New Password</FormTitle>
 

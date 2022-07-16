@@ -1,7 +1,6 @@
 import { FirebaseError } from 'firebase/app';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { useRef, useState, useEffect } from 'react';
-import { Alert } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { Verification } from '../../components/common/verification';
 import { VerificationEnum } from '../../components/common/verification/verification';
@@ -13,6 +12,8 @@ import { setError } from '../services/user.slice';
 import { FormTitle } from '../../components/common/form-title';
 import { Link, useNavigate } from 'react-router-dom';
 import { PathsEnum } from '../../App';
+import { UserNotFoundAlert } from '../../components/alerts/user-not-found-alert';
+import { LetterResendAlert } from '../../components/alerts/letter-resend-alert';
 
 export const ResetPasswordPage = () => {
 	const dispatch = useDispatch();
@@ -64,11 +65,10 @@ export const ResetPasswordPage = () => {
 
 	return (
 		<>
-			{error === ErrorsEnum.UserNotFoundError && (
-				<Alert variant='danger'>User Not Found!</Alert>
-			)}
-
-			{resendStatus && <Alert variant='success'>Letter Resend!</Alert>}
+			{/* Alerts */}
+			{error === ErrorsEnum.UserNotFoundError && <UserNotFoundAlert />}
+			{resendStatus && <LetterResendAlert />}
+			{/* /Alerts */}
 
 			{sent ? (
 				<Verification

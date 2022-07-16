@@ -18,9 +18,10 @@ import {
 import { ErrorsEnum } from '../services/typedef';
 import { AuthFormIdEnum } from '../../components/common/auth-form/auth-form';
 import { PathsEnum } from '../../App';
-import { Alert } from 'react-bootstrap';
 import { Verification } from '../../components/common/verification';
 import { VerificationEnum } from '../../components/common/verification/verification';
+import { LetterResendAlert } from '../../components/alerts/letter-resend-alert';
+import { EmailAlreadyUseAlert } from '../../components/alerts/email-already-use-alert';
 
 export const RegisterPage = () => {
 	const auth = getAuth();
@@ -80,7 +81,7 @@ export const RegisterPage = () => {
 		<>
 			{isAuth && !emailVerifiedStatus ? (
 				<>
-					{resendStatus && <Alert variant='success'>Letter Resend!</Alert>}
+					{resendStatus && <LetterResendAlert />}
 
 					<Verification
 						title='Email'
@@ -92,9 +93,7 @@ export const RegisterPage = () => {
 				</>
 			) : (
 				<>
-					{error === ErrorsEnum.EmailAlreadyUse && (
-						<Alert variant='warning'>This email is already in use!</Alert>
-					)}
+					{error === ErrorsEnum.EmailAlreadyUse && <EmailAlreadyUseAlert />}
 					<AuthForm
 						title='Register'
 						formId={AuthFormIdEnum.Register}
