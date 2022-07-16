@@ -10,7 +10,6 @@ import { getError, getAuthStatus } from '../services/selectors';
 import { useEffect, useState } from 'react';
 import { FirebaseError } from 'firebase/app';
 import { ErrorsEnum } from '../services/typedef';
-import { Alert } from 'react-bootstrap';
 import { PathsEnum } from '../../App';
 import { Link, useNavigate } from 'react-router-dom';
 import { PasswordsNotMatchAlert } from '../../components/alerts/passwords-not-match-alert';
