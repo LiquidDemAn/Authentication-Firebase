@@ -1,5 +1,5 @@
 import './new-password-page.scss';
-import { FormTitle } from '../../components/common/form-title';
+import { PageTitle } from '../../components/common/page-title';
 import { NewPasswordForm } from '../../components/new-password/new-password-form';
 import { useQuery } from '../../hooks/use-query';
 import { confirmPasswordReset, getAuth } from 'firebase/auth';
@@ -74,7 +74,7 @@ export const NewPasswordPage = () => {
 			{error === ErrorsEnum.InvalidCode && <ResetPassCodeUsedAlert />}
 			{/* /Alerts */}
 
-			<FormTitle>Confirm New Password</FormTitle>
+			<PageTitle>Confirm New Password</PageTitle>
 
 			{success ? (
 				<p className='new-password__text'>Password successfully changed! </p>

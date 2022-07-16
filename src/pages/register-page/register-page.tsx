@@ -22,6 +22,7 @@ import { Verification } from '../../components/common/verification';
 import { VerificationEnum } from '../../components/common/verification/verification';
 import { LetterResendAlert } from '../../components/alerts/letter-resend-alert';
 import { EmailAlreadyUseAlert } from '../../components/alerts/email-already-use-alert';
+import { PageTitle } from '../../components/common/page-title';
 
 export const RegisterPage = () => {
 	const auth = getAuth();
@@ -38,6 +39,12 @@ export const RegisterPage = () => {
 			navigate(`${PathsEnum.Home}`);
 		}
 	}, [isAuth, navigate, emailVerifiedStatus]);
+
+	useEffect(() => {
+		return () => {
+			dispatch(setError(null));
+		};
+	}, [dispatch]);
 
 	const onSubmit = (
 		event: React.FormEvent<HTMLButtonElement>,
@@ -90,14 +97,11 @@ export const RegisterPage = () => {
 			) : (
 				<>
 					{error === ErrorsEnum.EmailAlreadyUse && <EmailAlreadyUseAlert />}
-					<AuthForm
-						title='Register'
-						formId={AuthFormIdEnum.Register}
-						btnName='Sign up'
-						onSubmit={onSubmit}
-					/>
+					<PageTitle>Register</PageTitle>
+					<AuthForm formId={AuthFormIdEnum.Register} onSubmit={onSubmit} />
 					<span>
-						Alreadey have an account? <Link to='/login'>Sign In</Link>
+						Alreadey have an account?{' '}
+						<Link to={`/${PathsEnum.Login}`}>Sign In</Link>
 					</span>
 				</>
 			)}

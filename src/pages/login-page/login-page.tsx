@@ -10,6 +10,7 @@ import { FirebaseError } from 'firebase/app';
 import { AuthFormIdEnum } from '../../components/common/auth-form/auth-form';
 import { PathsEnum } from '../../App';
 import { UserNotFoundAlert } from '../../components/alerts/user-not-found-alert';
+import { PageTitle } from '../../components/common/page-title';
 
 export const LoginPage = () => {
 	const dispatch = useAppDispatch();
@@ -23,6 +24,12 @@ export const LoginPage = () => {
 		}
 	}, [isAuth, navigate]);
 
+	useEffect(() => {
+		return () => {
+			dispatch(setError(null));
+		};
+	}, [dispatch]);
+
 	const onSubmit = (
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
@@ -31,24 +38,19 @@ export const LoginPage = () => {
 		const auth = getAuth();
 		event.preventDefault();
 
-		signInWithEmailAndPassword(auth, email, password)
-			.then()
-			.catch((error: FirebaseError) => {
-				console.log(error.code);
+		signInWithEmailAndPassword(auth, email, password).catch(
+			(error: FirebaseError) => {
 				dispatch(setError(error.code as ErrorsEnum));
-			});
+			}
+		);
 	};
 
 	return (
 		<>
 			{error === ErrorsEnum.UserNotFoundError && <UserNotFoundAlert />}
 
-			<AuthForm
-				formId={AuthFormIdEnum.Login}
-				title='Login to your account'
-				btnName='Login now'
-				onSubmit={onSubmit}
-			/>
+			<PageTitle>Login to your account</PageTitle>
+			<AuthForm formId={AuthFormIdEnum.Login} onSubmit={onSubmit} />
 			<span>
 				Don't have an account?{' '}
 				<Link to={`/${PathsEnum.Register}`}>Sign Up</Link>

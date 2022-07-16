@@ -1,7 +1,11 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getAuthStatus } from './../pages/services/selectors';
 import { useAppDispatch, useAppSelector } from './../store/hooks';
-import { setAuthStatus, setUser } from '../pages/services/user.slice';
+import {
+	setAuthStatus,
+	setUser,
+	removeUser,
+} from '../pages/services/user.slice';
 
 export const useAuth = () => {
 	const auth = getAuth();
@@ -23,6 +27,7 @@ export const useAuth = () => {
 			});
 		} else {
 			if (isAuth === null) {
+				dispatch(removeUser());
 				dispatch(setAuthStatus(false));
 			}
 		}
