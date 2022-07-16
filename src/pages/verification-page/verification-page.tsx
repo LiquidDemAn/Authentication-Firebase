@@ -40,30 +40,6 @@ export const VerificationPage = () => {
 		}
 	}, [error, emailVerified, navigate, mode]);
 
-	// useEffect(() => {
-	// 	if (oobCode) {
-	// 		applyActionCode(auth, oobCode)
-	// 			.then(() => {
-	// 				auth.currentUser?.reload();
-
-	// 				if (mode === ModeEnum.VerifyEmail) {
-	// 					navigate(
-	// 						`/${PathsEnum.Register}/${PathsEnum.Success}?oobCode=${oobCode}`
-	// 					);
-	// 				}
-	// 				if (mode === ModeEnum.ResetPassword) {
-	// 					navigate(
-	// 						`/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}?oobCode=${oobCode}`
-	// 					);
-	// 				}
-	// 			})
-	// 			.catch((error: FirebaseError) => {
-	// 				console.log(error.code);
-	// 				dispatch(setError(error.code as ErrorsEnum));
-	// 			});
-	// 	}
-	// }, [oobCode, mode, auth, dispatch, navigate]);
-
 	useEffect(() => {
 		if (oobCode) {
 			auth.currentUser?.reload();
