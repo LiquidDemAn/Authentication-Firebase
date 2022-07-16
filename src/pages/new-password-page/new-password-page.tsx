@@ -15,6 +15,7 @@ import { PathsEnum } from '../../App';
 import { Link, useNavigate } from 'react-router-dom';
 import { PasswordsNotMatchAlert } from '../../components/alerts/passwords-not-match-alert';
 import { WeakPasswordAlert } from '../../components/alerts/weak-password-alert';
+import { ExpiredCodeAlert } from '../../components/alerts/expired-code-alert';
 
 export const NewPasswordPage = () => {
 	const dispatch = useDispatch();
@@ -71,12 +72,7 @@ export const NewPasswordPage = () => {
 
 			{error === ErrorsEnum.WeakPassword && <WeakPasswordAlert />}
 
-			{error === ErrorsEnum.ExpiredCode && (
-				<Alert variant='danger'>
-					The link has expired! You must confirm your mail again. Go back to{' '}
-					<Link to={`/${PathsEnum.ResetPassword}`}>Reset page</Link>
-				</Alert>
-			)}
+			{error === ErrorsEnum.ExpiredCode && <ExpiredCodeAlert />}
 
 			{error === ErrorsEnum.CodeUsed && (
 				<Alert variant='danger'>
