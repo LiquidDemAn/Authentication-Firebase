@@ -65,9 +65,10 @@ export const ResetPasswordPage = () => {
 
 	return (
 		<>
+			{/* Alerts */}
 			{error === ErrorsEnum.UserNotFoundError && <UserNotFoundAlert />}
-
 			{resendStatus && <LetterResendAlert />}
+			{/* /Alerts */}
 
 			{sent ? (
 				<Verification

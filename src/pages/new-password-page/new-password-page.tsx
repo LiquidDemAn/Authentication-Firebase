@@ -67,12 +67,12 @@ export const NewPasswordPage = () => {
 
 	return (
 		<div className='new-password__wrapper'>
-			{/* Errors */}
+			{/* Alerts */}
 			{error === ErrorsEnum.PasswordsNotMatch && <PasswordsNotMatchAlert />}
 			{error === ErrorsEnum.WeakPassword && <WeakPasswordAlert />}
 			{error === ErrorsEnum.ExpiredCode && <ExpiredCodeAlert />}
 			{error === ErrorsEnum.InvalidCode && <ResetPassCodeUsedAlert />}
-			{/* /Errors */}
+			{/* /Alerts */}
 
 			<FormTitle>Confirm New Password</FormTitle>
 
