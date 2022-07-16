@@ -6,10 +6,10 @@ import { useAppSelector } from '../../../store/hooks';
 import { Email } from '../../common/email';
 
 type Props = {
-	onClick: (event: React.FormEvent<HTMLButtonElement>, email?: string) => void;
+	onSubmit: (event: React.FormEvent<HTMLButtonElement>, email?: string) => void;
 };
 
-export const ResetPasswordForm = ({ onClick }: Props) => {
+export const ResetPasswordForm = ({ onSubmit }: Props) => {
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const error = useAppSelector(getError);
 
@@ -19,7 +19,7 @@ export const ResetPasswordForm = ({ onClick }: Props) => {
 			<Button
 				type='submit'
 				variant='success'
-				onClick={(event) => onClick(event, emailRef?.current?.value)}
+				onClick={(event) => onSubmit(event, emailRef?.current?.value)}
 			>
 				Send
 			</Button>

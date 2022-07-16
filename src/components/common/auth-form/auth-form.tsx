@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { setError } from '../../../pages/services/user.slice';
 import { PathsEnum } from '../../../App';
 import { getError } from '../../../pages/services/selectors';
-import { FormTitle } from '../form-title';
 
 export enum AuthFormIdEnum {
 	Login = 'login-form',
@@ -17,8 +16,6 @@ export enum AuthFormIdEnum {
 
 type Props = {
 	formId: AuthFormIdEnum;
-	title?: string;
-	btnName: string;
 	onSubmit: (
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
@@ -26,7 +23,7 @@ type Props = {
 	) => void;
 };
 
-export const AuthForm = ({ formId, title, btnName, onSubmit }: Props) => {
+export const AuthForm = ({ formId, onSubmit }: Props) => {
 	const dispatch = useAppDispatch();
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -40,8 +37,6 @@ export const AuthForm = ({ formId, title, btnName, onSubmit }: Props) => {
 
 	return (
 		<Form className='auth-form' id={formId}>
-			{title && <FormTitle>{title}</FormTitle>}
-
 			<div className='auth-form__content'>
 				<Email error={error} emailRef={emailRef} />
 				<Password error={error} passwordRef={passwordRef} />
@@ -58,7 +53,8 @@ export const AuthForm = ({ formId, title, btnName, onSubmit }: Props) => {
 						onSubmit(event, emailRef.current!.value, passwordRef.current!.value)
 					}
 				>
-					{btnName}
+					{formId === AuthFormIdEnum.Login && 'Sign in'}
+					{formId === AuthFormIdEnum.Register && 'Sign up'}
 				</Button>
 			</div>
 		</Form>

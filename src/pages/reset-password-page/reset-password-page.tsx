@@ -9,7 +9,7 @@ import { useAppSelector } from '../../store/hooks';
 import { getError, getAuthStatus } from '../services/selectors';
 import { ErrorsEnum } from '../services/typedef';
 import { setError } from '../services/user.slice';
-import { FormTitle } from '../../components/common/form-title';
+import { PageTitle } from '../../components/common/page-title';
 import { Link, useNavigate } from 'react-router-dom';
 import { PathsEnum } from '../../App';
 import { UserNotFoundAlert } from '../../components/alerts/user-not-found-alert';
@@ -31,6 +31,12 @@ export const ResetPasswordPage = () => {
 		}
 	}, [isAuth, navigate]);
 
+	useEffect(() => {
+		return () => {
+			dispatch(setError(null));
+		};
+	}, [dispatch]);
+
 	const resendHandle = () => {
 		sendPasswordResetEmail(auth, emailRef.current)
 			.then(() => {
@@ -41,7 +47,7 @@ export const ResetPasswordPage = () => {
 			});
 	};
 
-	const sendHandle = (
+	const onSubmit = (
 		event: React.FormEvent<HTMLButtonElement>,
 		email?: string
 	) => {
@@ -80,8 +86,8 @@ export const ResetPasswordPage = () => {
 				/>
 			) : (
 				<>
-					<FormTitle>Reset Password</FormTitle>
-					<ResetPasswordForm onClick={sendHandle} />
+					<PageTitle>Reset Password</PageTitle>
+					<ResetPasswordForm onSubmit={onSubmit} />
 					<Link to={`/${PathsEnum.Login}`}>Back to Login?</Link>
 				</>
 			)}

@@ -85,7 +85,7 @@ export const VerificationPage = () => {
 				<span className='verification-page__subtitle'>
 					Activation code is invalid or link is expired.
 				</span>
-				<></>
+
 				{mode === ModeEnum.VerifyEmail && (
 					<>
 						<p className='verification-page__text'>
