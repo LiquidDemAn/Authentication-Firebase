@@ -51,12 +51,10 @@ export const RegisterPage = () => {
 				sendEmailVerification(user)
 					.then()
 					.catch((error: FirebaseError) => {
-						console.log(error.code);
 						dispatch(setError(error.code as ErrorsEnum));
 					});
 			})
 			.catch((error: FirebaseError) => {
-				console.log(error.code);
 				dispatch(setError(error.code as ErrorsEnum));
 			});
 	};
@@ -70,9 +68,7 @@ export const RegisterPage = () => {
 					setResendStatus(true);
 				})
 				.catch((error: FirebaseError) => {
-					const errorCode = error.code;
-					console.log(errorCode);
-					dispatch(setError(errorCode as ErrorsEnum));
+					dispatch(setError(error.code as ErrorsEnum));
 				});
 		}
 	};
@@ -98,7 +94,7 @@ export const RegisterPage = () => {
 						title='Register'
 						formId={AuthFormIdEnum.Register}
 						btnName='Sign up'
-						handleClick={onSubmit}
+						onSubmit={onSubmit}
 					/>
 					<span>
 						Alreadey have an account? <Link to='/login'>Sign In</Link>

@@ -23,7 +23,7 @@ export const LoginPage = () => {
 		}
 	}, [isAuth, navigate]);
 
-	const handleLogin = (
+	const onSubmit = (
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
 		password: string
@@ -47,7 +47,7 @@ export const LoginPage = () => {
 				formId={AuthFormIdEnum.Login}
 				title='Login to your account'
 				btnName='Login now'
-				handleClick={handleLogin}
+				onSubmit={onSubmit}
 			/>
 			<span>
 				Don't have an account?{' '}

@@ -11,22 +11,22 @@ import { getError } from '../../../pages/services/selectors';
 import { FormTitle } from '../form-title';
 
 export enum AuthFormIdEnum {
-	Login = 'login',
-	Register = 'register',
+	Login = 'login-form',
+	Register = 'register-form',
 }
 
 type Props = {
 	formId: AuthFormIdEnum;
 	title?: string;
 	btnName: string;
-	handleClick: (
+	onSubmit: (
 		event: React.FormEvent<HTMLButtonElement>,
 		email: string,
 		password: string
 	) => void;
 };
 
-export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
+export const AuthForm = ({ formId, title, btnName, onSubmit }: Props) => {
 	const dispatch = useAppDispatch();
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -55,11 +55,7 @@ export const AuthForm = ({ formId, title, btnName, handleClick }: Props) => {
 					className='p-2 w-100'
 					variant='success'
 					onClick={(event) =>
-						handleClick(
-							event,
-							emailRef.current!.value,
-							passwordRef.current!.value
-						)
+						onSubmit(event, emailRef.current!.value, passwordRef.current!.value)
 					}
 				>
 					{btnName}
