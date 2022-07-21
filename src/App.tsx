@@ -14,13 +14,13 @@ import { useEffect } from 'react';
 import { Wrapper } from './components/common/wrapper';
 
 export enum PathsEnum {
-	Host = 'https://liquiddeman.github.io/Authentication-Firebase/',
-	Register = 'register',
-	ResetPassword = 'reset-password',
-	Login = 'login',
-	Success = 'success',
-	NewPassword = 'new-password',
-	Verification = 'verification',
+	Host = '/Authentication-Firebase',
+	Register = `Authentication-Firebase/register`,
+	ResetPassword = 'Authentication-Firebase/reset-password',
+	Login = 'Authentication-Firebase/login',
+	Success = 'Authentication-Firebase/success',
+	NewPassword = 'Authentication-Firebase/new-password',
+	Verification = 'Authentication-Firebase/verification',
 }
 
 function App() {
@@ -59,7 +59,7 @@ function App() {
 				<></>
 			) : (
 				<Routes>
-					<Route index element={<HomePage />} />
+					<Route path={PathsEnum.Host} element={<HomePage />} />
 					<Route path={PathsEnum.Verification} element={<VerificationPage />} />
 					<Route path={PathsEnum.Register}>
 						<Route index element={<RegisterPage />} />
