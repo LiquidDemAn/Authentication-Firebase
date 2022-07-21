@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { Wrapper } from './components/common/wrapper';
 
 export enum PathsEnum {
-	Host = 'http://localhost:3000',
+	Host = 'https://liquiddeman.github.io/Authentication-Firebase/',
 	Register = 'register',
 	ResetPassword = 'reset-password',
 	Login = 'login',
