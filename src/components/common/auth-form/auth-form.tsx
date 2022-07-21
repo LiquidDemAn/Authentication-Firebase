@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { setError } from '../../../pages/services/user.slice';
 import { PathsEnum } from '../../../App';
 import { getError } from '../../../pages/services/selectors';
+import { GoogleInButton } from '../google-in-button';
 
 export enum AuthFormIdEnum {
 	Login = 'login-form',
@@ -56,6 +57,7 @@ export const AuthForm = ({ formId, onSubmit }: Props) => {
 					{formId === AuthFormIdEnum.Login && 'Sign in'}
 					{formId === AuthFormIdEnum.Register && 'Sign up'}
 				</Button>
+				<GoogleInButton />
 			</div>
 		</Form>
 	);
