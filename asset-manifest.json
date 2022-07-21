@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Authentication-Firebase/static/css/main.505a47d5.css",
+    "main.js": "/Authentication-Firebase/static/js/main.184f76b6.js",
+    "static/js/787.12aee1a7.chunk.js": "/Authentication-Firebase/static/js/787.12aee1a7.chunk.js",
+    "static/media/mountains.jpg": "/Authentication-Firebase/static/media/mountains.6d13c6e18247882c1f8f.jpg",
+    "index.html": "/Authentication-Firebase/index.html",
+    "main.505a47d5.css.map": "/Authentication-Firebase/static/css/main.505a47d5.css.map",
+    "main.184f76b6.js.map": "/Authentication-Firebase/static/js/main.184f76b6.js.map",
+    "787.12aee1a7.chunk.js.map": "/Authentication-Firebase/static/js/787.12aee1a7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.505a47d5.css",
+    "static/js/main.184f76b6.js"
+  ]
+}
