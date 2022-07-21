@@ -14,7 +14,6 @@ import { useEffect } from 'react';
 import { Wrapper } from './components/common/wrapper';
 
 export enum PathsEnum {
-	Home = '/',
 	Host = 'http://localhost:3000',
 	Register = 'register',
 	ResetPassword = 'reset-password',
@@ -34,7 +33,7 @@ function App() {
 		if (
 			isAuth === false &&
 			location.pathname !== `/${PathsEnum.Register}` &&
-			location.pathname !== `/${PathsEnum.Verification	}` &&
+			location.pathname !== `/${PathsEnum.Verification}` &&
 			location.pathname !== `/${PathsEnum.ResetPassword}` &&
 			location.pathname !==
 				`/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}`

@@ -20,7 +20,7 @@ export const LoginPage = () => {
 
 	useEffect(() => {
 		if (isAuth === true) {
-			navigate(`${PathsEnum.Home}`);
+			navigate(`${PathsEnum.Host}`);
 		}
 	}, [isAuth, navigate]);
 

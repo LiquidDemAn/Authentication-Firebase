@@ -36,7 +36,7 @@ export const RegisterPage = () => {
 
 	useEffect(() => {
 		if (isAuth === true && emailVerifiedStatus) {
-			navigate(`${PathsEnum.Home}`);
+			navigate(`${PathsEnum.Host}`);
 		}
 	}, [isAuth, navigate, emailVerifiedStatus]);
 
