@@ -20,7 +20,7 @@ export const SuccessEmailVerifPage = () => {
 	}, [oobCode, emailVerified, navigate]);
 
 	const onClick = () => {
-		window.open(PathsEnum.Host, '_self');
+		window.open(`/${PathsEnum.Host}`, '_self');
 	};
 
 	return (

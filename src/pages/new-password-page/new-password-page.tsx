@@ -28,7 +28,7 @@ export const NewPasswordPage = () => {
 
 	useEffect(() => {
 		if (isAuth) {
-			navigate(PathsEnum.Host);
+			navigate(PathsEnum.Home);
 		}
 	}, [isAuth, navigate]);
 

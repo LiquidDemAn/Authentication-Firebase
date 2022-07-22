@@ -14,13 +14,14 @@ import { useEffect } from 'react';
 import { Wrapper } from './components/common/wrapper';
 
 export enum PathsEnum {
-	Host = '/Authentication-Firebase',
-	Register = `Authentication-Firebase/register`,
-	ResetPassword = 'Authentication-Firebase/reset-password',
-	Login = 'Authentication-Firebase/login',
-	Success = 'Authentication-Firebase/success',
-	NewPassword = 'Authentication-Firebase/new-password',
-	Verification = 'Authentication-Firebase/verification',
+	Host = 'Authentication-Firebase',
+	Home = '/',
+	Register = `register`,
+	ResetPassword = 'reset-password',
+	Login = 'login',
+	Success = 'success',
+	NewPassword = 'new-password',
+	Verification = 'verification',
 }
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
 	const location = useLocation();
 	const emailVerified = useAppSelector(getEmailVerifiedStatus);
 	const isAuth = useAuth();
+
+	console.log(location.pathname);
 
 	useEffect(() => {
 		if (
@@ -40,8 +43,6 @@ function App() {
 		) {
 			navigate(PathsEnum.Login);
 		}
-
-		console.log(location.pathname);
 
 		if (
 			location.pathname !== `/${PathsEnum.Verification}` &&
@@ -59,7 +60,7 @@ function App() {
 				<></>
 			) : (
 				<Routes>
-					<Route path={PathsEnum.Host} element={<HomePage />} />
+					<Route path={PathsEnum.Home} element={<HomePage />} />
 					<Route path={PathsEnum.Verification} element={<VerificationPage />} />
 					<Route path={PathsEnum.Register}>
 						<Route index element={<RegisterPage />} />

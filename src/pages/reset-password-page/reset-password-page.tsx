@@ -27,7 +27,7 @@ export const ResetPasswordPage = () => {
 
 	useEffect(() => {
 		if (isAuth) {
-			navigate(PathsEnum.Host);
+			navigate(PathsEnum.Home);
 		}
 	}, [isAuth, navigate]);
 

@@ -4,18 +4,26 @@
 	align-items: center;
 	row-gap: 15px;
 	text-align: center;
-	font-size: 22px;
+	font-size: 20px;
 }
 
 .verification__title {
-	font-size: 38px;
+	font-size: 28px;
 	font-weight: 700;
+
+	@media (min-width: 768px) {
+		font-size: 38px;
+	}
 }
 
 .verification__email {
 	display: inline-block;
-	font-size: 26px;
+	font-size: 20px;
 	text-decoration: underline;
+
+	@media (min-width: 768px) {
+		font-size: 24px;
+	}
 }
 
 .verification__buttons {
