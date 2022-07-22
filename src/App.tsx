@@ -6,6 +6,7 @@ import { useAuth } from './hooks/use-auth';
 import { useLocation } from 'react-router-dom';
 import { ResetPasswordPage } from './pages/reset-password-page';
 import { NewPasswordPage } from './pages/new-password-page';
+import { NotFoundPage } from './pages/not-found-page';
 import { SuccessEmailVerifPage } from './pages/success-email-verif-page';
 import { VerificationPage } from './pages/verification-page';
 import { useAppSelector } from './store/hooks';
@@ -74,6 +75,7 @@ function App() {
 						<Route index element={<ResetPasswordPage />} />
 						<Route path={PathsEnum.NewPassword} element={<NewPasswordPage />} />
 					</Route>
+					<Route path='*' element={<NotFoundPage />} />
 				</Routes>
 			)}
 		</Wrapper>
