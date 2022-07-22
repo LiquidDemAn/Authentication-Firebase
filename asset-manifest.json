@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Authentication-Firebase/static/css/main.505a47d5.css",
-    "main.js": "/Authentication-Firebase/static/js/main.3c3b0bd7.js",
+    "main.css": "/Authentication-Firebase/static/css/main.72268806.css",
+    "main.js": "/Authentication-Firebase/static/js/main.e5b70f31.js",
     "static/js/787.12aee1a7.chunk.js": "/Authentication-Firebase/static/js/787.12aee1a7.chunk.js",
     "static/media/mountains.jpg": "/Authentication-Firebase/static/media/mountains.6d13c6e18247882c1f8f.jpg",
     "index.html": "/Authentication-Firebase/index.html",
-    "main.505a47d5.css.map": "/Authentication-Firebase/static/css/main.505a47d5.css.map",
-    "main.3c3b0bd7.js.map": "/Authentication-Firebase/static/js/main.3c3b0bd7.js.map",
+    "main.72268806.css.map": "/Authentication-Firebase/static/css/main.72268806.css.map",
+    "main.e5b70f31.js.map": "/Authentication-Firebase/static/js/main.e5b70f31.js.map",
     "787.12aee1a7.chunk.js.map": "/Authentication-Firebase/static/js/787.12aee1a7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.505a47d5.css",
-    "static/js/main.3c3b0bd7.js"
+    "static/css/main.72268806.css",
+    "static/js/main.e5b70f31.js"
   ]
 }
