@@ -17,7 +17,7 @@ import { Wrapper } from './components/common/wrapper';
 export enum PathsEnum {
 	Host = 'Authentication-Firebase',
 	Home = '/',
-	Register = `register`,
+	Register = 'register',
 	ResetPassword = 'reset-password',
 	Login = 'login',
 	Success = 'success',
@@ -30,8 +30,6 @@ function App() {
 	const location = useLocation();
 	const emailVerified = useAppSelector(getEmailVerifiedStatus);
 	const isAuth = useAuth();
-
-	console.log(location.pathname);
 
 	useEffect(() => {
 		if (

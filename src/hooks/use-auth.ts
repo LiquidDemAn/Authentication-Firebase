@@ -11,7 +11,6 @@ export const useAuth = () => {
 	const auth = getAuth();
 	const dispatch = useAppDispatch();
 	const isAuth = useAppSelector(getAuthStatus);
-	console.log(auth.currentUser);
 
 	onAuthStateChanged(auth, (user) => {
 		if (user && !isAuth) {
