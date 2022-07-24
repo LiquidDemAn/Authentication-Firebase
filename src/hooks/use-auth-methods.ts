@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { getError } from './../pages/services/selectors';
 import { auth } from '../firebase';
 import {
 	User,
+	Auth,
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
 	signInWithEmailAndPassword,
@@ -18,6 +20,7 @@ import { SetStateAction } from 'react';
 
 export const useAuthMethods = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const error = useAppSelector(getError);
 
 	const login = (email: string, password: string) => {
@@ -92,6 +95,20 @@ export const useAuthMethods = () => {
 		});
 	};
 
+	const verifyCode = (
+		method: (auth: Auth, oobCode: string) => Promise<void | string>,
+		oobCode: string,
+		path: string
+	) => {
+		method(auth, oobCode)
+			.then(() => {
+				navigate(path);
+			})
+			.catch((error: FirebaseError) => {
+				dispatch(setError(error.code as ErrorsEnum));
+			});
+	};
+
 	return {
 		login,
 		emailVerification,
@@ -99,5 +116,6 @@ export const useAuthMethods = () => {
 		forgotPassword,
 		resetPassword,
 		signInWithGoogle,
+		verifyCode,
 	};
 };
