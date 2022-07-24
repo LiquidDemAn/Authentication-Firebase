@@ -2,13 +2,11 @@ import './new-password-page.scss';
 import { PageTitle } from '../../components/common/page-title';
 import { NewPasswordForm } from '../../components/new-password/new-password-form';
 import { useQuery } from '../../hooks/use-query';
-import { confirmPasswordReset, getAuth } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { setError } from '../services/user.slice';
 import { useAppSelector } from '../../store/hooks';
 import { getError, getAuthStatus } from '../services/selectors';
 import { useEffect, useState } from 'react';
-import { FirebaseError } from 'firebase/app';
 import { ErrorsEnum } from '../services/typedef';
 import { PathsEnum } from '../../App';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,6 +14,7 @@ import { PasswordsNotMatchAlert } from '../../components/alerts/passwords-not-ma
 import { WeakPasswordAlert } from '../../components/alerts/weak-password-alert';
 import { ExpiredCodeAlert } from '../../components/alerts/expired-code-alert';
 import { ResetPassCodeUsedAlert } from '../../components/alerts/reset-pass-code-used-alert';
+import { useAuthMethods } from '../../hooks/use-auth-methods';
 
 export const NewPasswordPage = () => {
 	const dispatch = useDispatch();
@@ -23,8 +22,9 @@ export const NewPasswordPage = () => {
 	const query = useQuery();
 	const error = useAppSelector(getError);
 	const isAuth = useAppSelector(getAuthStatus);
-	const oobCode = query.get('oobCode');
+	const { resetPassword } = useAuthMethods();
 	const [success, setSuccess] = useState(false);
+	const oobCode = query.get('oobCode');
 
 	useEffect(() => {
 		if (isAuth) {
@@ -43,7 +43,6 @@ export const NewPasswordPage = () => {
 		newPassword: string,
 		confirmNewPassword: string
 	) => {
-		const auth = getAuth();
 		event.preventDefault();
 
 		if (error) {
@@ -51,13 +50,7 @@ export const NewPasswordPage = () => {
 		}
 
 		if (oobCode && newPassword === confirmNewPassword) {
-			confirmPasswordReset(auth, oobCode, newPassword)
-				.then(() => {
-					setSuccess(true);
-				})
-				.catch((error: FirebaseError) => {
-					dispatch(setError(error.code as ErrorsEnum));
-				});
+			resetPassword(oobCode, newPassword, setSuccess);
 		} else {
 			setTimeout(() => {
 				dispatch(setError(ErrorsEnum.PasswordsNotMatch));
@@ -67,12 +60,10 @@ export const NewPasswordPage = () => {
 
 	return (
 		<div className='new-password__wrapper'>
-			{/* Alerts */}
 			{error === ErrorsEnum.PasswordsNotMatch && <PasswordsNotMatchAlert />}
 			{error === ErrorsEnum.WeakPassword && <WeakPasswordAlert />}
 			{error === ErrorsEnum.ExpiredCode && <ExpiredCodeAlert />}
 			{error === ErrorsEnum.InvalidCode && <ResetPassCodeUsedAlert />}
-			{/* /Alerts */}
 
 			<PageTitle>Confirm New Password</PageTitle>
 

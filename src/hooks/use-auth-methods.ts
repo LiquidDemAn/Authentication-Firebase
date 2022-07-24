@@ -1,11 +1,12 @@
 import { getError } from './../pages/services/selectors';
 import { auth } from '../firebase';
 import {
+	User,
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
 	signInWithEmailAndPassword,
 	sendPasswordResetEmail,
-	User,
+	confirmPasswordReset,
 } from 'firebase/auth';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setError } from '../pages/services/user.slice';
@@ -18,7 +19,7 @@ export const useAuthMethods = () => {
 	const error = useAppSelector(getError);
 
 	const login = (email: string, password: string) => {
-		return signInWithEmailAndPassword(auth, email, password).catch(
+		signInWithEmailAndPassword(auth, email, password).catch(
 			(error: FirebaseError) => {
 				dispatch(setError(error.code as ErrorsEnum));
 			}
@@ -45,7 +46,7 @@ export const useAuthMethods = () => {
 	};
 
 	const register = (email: string, password: string) => {
-		return createUserWithEmailAndPassword(auth, email, password)
+		createUserWithEmailAndPassword(auth, email, password)
 			.then(({ user }) => {
 				emailVerification(user);
 			})
@@ -58,7 +59,21 @@ export const useAuthMethods = () => {
 		email: string,
 		handler: (value: SetStateAction<boolean>) => void
 	) => {
-		return sendPasswordResetEmail(auth, email)
+		sendPasswordResetEmail(auth, email)
+			.then(() => {
+				handler(true);
+			})
+			.catch((error: FirebaseError) => {
+				dispatch(setError(error.code as ErrorsEnum));
+			});
+	};
+
+	const resetPassword = (
+		oobCode: string,
+		password: string,
+		handler: (value: SetStateAction<boolean>) => void
+	) => {
+		confirmPasswordReset(auth, oobCode, password)
 			.then(() => {
 				handler(true);
 			})
@@ -72,5 +87,6 @@ export const useAuthMethods = () => {
 		emailVerification,
 		register,
 		forgotPassword,
+		resetPassword,
 	};
 };

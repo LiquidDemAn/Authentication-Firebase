@@ -1,4 +1,3 @@
-import { getAuth } from 'firebase/auth';
 import { useRef, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Verification } from '../../components/common/verification';
