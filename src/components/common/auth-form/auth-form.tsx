@@ -1,14 +1,14 @@
 import './auth-form.scss';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Password } from '../password';
 import { Email } from '../email';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { setError } from '../../../pages/services/user.slice';
+import { useAppSelector } from '../../../store/hooks';
 import { PathsEnum } from '../../../App';
 import { getError } from '../../../pages/services/selectors';
-import { GoogleInButton } from '../google-in-button';
+import { IoLogoGoogle } from 'react-icons/io5';
+import { useAuthMethods } from '../../../hooks/use-auth-methods';
 
 export enum AuthFormIdEnum {
 	Login = 'login-form',
@@ -25,16 +25,10 @@ type Props = {
 };
 
 export const AuthForm = ({ formId, onSubmit }: Props) => {
-	const dispatch = useAppDispatch();
+	const { signInWithGoogle } = useAuthMethods();
+	const error = useAppSelector(getError);
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
-	const error = useAppSelector(getError);
-
-	useEffect(() => {
-		return () => {
-			dispatch(setError(null));
-		};
-	}, [dispatch]);
 
 	return (
 		<Form className='auth-form' id={formId}>
@@ -57,7 +51,14 @@ export const AuthForm = ({ formId, onSubmit }: Props) => {
 					{formId === AuthFormIdEnum.Login && 'Sign in'}
 					{formId === AuthFormIdEnum.Register && 'Sign up'}
 				</Button>
-				<GoogleInButton />
+
+				<Button
+					className='auth-form__google'
+					variant='outline-primary'
+					onClick={signInWithGoogle}
+				>
+					<IoLogoGoogle /> Sign in with google
+				</Button>
 			</div>
 		</Form>
 	);

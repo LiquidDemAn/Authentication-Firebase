@@ -36,8 +36,7 @@ export const ResetPasswordPage = () => {
 				dispatch(setError(null));
 			}
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch, error]);
 
 	const resendHandle = () => {
 		forgotPassword(emailRef.current, setResendStatus);

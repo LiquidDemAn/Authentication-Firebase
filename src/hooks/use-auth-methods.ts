@@ -7,6 +7,8 @@ import {
 	signInWithEmailAndPassword,
 	sendPasswordResetEmail,
 	confirmPasswordReset,
+	GoogleAuthProvider,
+	signInWithPopup,
 } from 'firebase/auth';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setError } from '../pages/services/user.slice';
@@ -82,11 +84,20 @@ export const useAuthMethods = () => {
 			});
 	};
 
+	const signInWithGoogle = () => {
+		const provider = new GoogleAuthProvider();
+
+		signInWithPopup(auth, provider).catch((error: FirebaseError) => {
+			dispatch(setError(error.code as ErrorsEnum));
+		});
+	};
+
 	return {
 		login,
 		emailVerification,
 		register,
 		forgotPassword,
 		resetPassword,
+		signInWithGoogle,
 	};
 };

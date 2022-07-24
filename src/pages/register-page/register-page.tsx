@@ -42,8 +42,7 @@ export const RegisterPage = () => {
 				dispatch(setError(null));
 			}
 		};
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch, error]);
 
 	const onSubmit = (
 		event: FormEvent<HTMLButtonElement>,

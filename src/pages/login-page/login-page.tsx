@@ -30,8 +30,7 @@ export const LoginPage = () => {
 				dispatch(setError(null));
 			}
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch, error]);
 
 	const onSubmit = (
 		event: React.FormEvent<HTMLButtonElement>,
