@@ -38,9 +38,12 @@ export const RegisterPage = () => {
 
 	useEffect(() => {
 		return () => {
-			dispatch(setError(null));
+			if (error) {
+				dispatch(setError(null));
+			}
 		};
-	}, [dispatch]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const onSubmit = (
 		event: FormEvent<HTMLButtonElement>,
