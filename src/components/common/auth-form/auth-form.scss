@@ -7,3 +7,10 @@
 	flex-direction: column;
 	row-gap: 1rem;
 }
+
+.auth-form__google {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 10px;
+}

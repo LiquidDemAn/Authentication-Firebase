@@ -1,19 +1,14 @@
 import './verification-page.scss';
-import {
-	applyActionCode,
-	getAuth,
-	verifyPasswordResetCode,
-} from 'firebase/auth';
+import { applyActionCode, verifyPasswordResetCode } from 'firebase/auth';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PathsEnum } from '../../App';
 import { useQuery } from '../../hooks/use-query';
-import { FirebaseError } from 'firebase/app';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setError } from '../services/user.slice';
+import { useAppSelector } from '../../store/hooks';
 import { ErrorsEnum } from '../services/typedef';
 import { getEmailVerifiedStatus, getError } from '../services/selectors';
 import { Button } from 'react-bootstrap';
+import { useAuthMethods } from '../../hooks/use-auth-methods';
 
 enum ModeEnum {
 	VerifyEmail = 'verifyEmail',
@@ -21,8 +16,7 @@ enum ModeEnum {
 }
 
 export const VerificationPage = () => {
-	const dispatch = useAppDispatch();
-	const auth = getAuth();
+	const { verifyCode } = useAuthMethods();
 	const navigate = useNavigate();
 	const query = useQuery();
 	const mode = query.get('mode');
@@ -42,33 +36,17 @@ export const VerificationPage = () => {
 
 	useEffect(() => {
 		if (oobCode) {
-			auth.currentUser?.reload();
-
 			if (mode === ModeEnum.VerifyEmail) {
-				applyActionCode(auth, oobCode)
-					.then(() => {
-						navigate(
-							`/${PathsEnum.Register}/${PathsEnum.Success}?oobCode=${oobCode}`
-						);
-					})
-					.catch((error: FirebaseError) =>
-						dispatch(setError(error.code as ErrorsEnum))
-					);
+				const path = `/${PathsEnum.Register}/${PathsEnum.Success}?oobCode=${oobCode}`;
+				verifyCode(applyActionCode, oobCode, path);
 			}
 
 			if (mode === ModeEnum.ResetPassword) {
-				verifyPasswordResetCode(auth, oobCode)
-					.then(() => {
-						navigate(
-							`/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}?oobCode=${oobCode}`
-						);
-					})
-					.catch((error: FirebaseError) =>
-						dispatch(setError(error.code as ErrorsEnum))
-					);
+				const path = `/${PathsEnum.ResetPassword}/${PathsEnum.NewPassword}?oobCode=${oobCode}`;
+				verifyCode(verifyPasswordResetCode, oobCode, path);
 			}
 		}
-	}, [oobCode, mode, auth, dispatch, navigate]);
+	}, [mode, oobCode, verifyCode]);
 
 	const registerRedirect = () => {
 		navigate(`/${PathsEnum.Register}`);

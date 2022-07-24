@@ -1,5 +1,3 @@
-import { FirebaseError } from 'firebase/app';
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { useRef, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Verification } from '../../components/common/verification';
@@ -14,16 +12,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { PathsEnum } from '../../App';
 import { UserNotFoundAlert } from '../../components/alerts/user-not-found-alert';
 import { LetterResendAlert } from '../../components/alerts/letter-resend-alert';
+import { useAuthMethods } from '../../hooks/use-auth-methods';
 
 export const ResetPasswordPage = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isAuth = useAppSelector(getAuthStatus);
-	const auth = getAuth();
 	const emailRef = useRef('');
 	const error = useAppSelector(getError);
 	const [sent, setSent] = useState(false);
 	const [resendStatus, setResendStatus] = useState(false);
+	const { forgotPassword } = useAuthMethods();
 
 	useEffect(() => {
 		if (isAuth) {
@@ -33,18 +32,14 @@ export const ResetPasswordPage = () => {
 
 	useEffect(() => {
 		return () => {
-			dispatch(setError(null));
+			if (error) {
+				dispatch(setError(null));
+			}
 		};
-	}, [dispatch]);
+	}, [dispatch, error]);
 
 	const resendHandle = () => {
-		sendPasswordResetEmail(auth, emailRef.current)
-			.then(() => {
-				setResendStatus(true);
-			})
-			.catch((error: FirebaseError) => {
-				dispatch(setError(error.code as ErrorsEnum));
-			});
+		forgotPassword(emailRef.current, setResendStatus);
 	};
 
 	const onSubmit = (
@@ -58,23 +53,15 @@ export const ResetPasswordPage = () => {
 		}
 
 		if (email) {
-			sendPasswordResetEmail(auth, email)
-				.then(() => {
-					setSent(true);
-					emailRef.current = email;
-				})
-				.catch((error: FirebaseError) => {
-					dispatch(setError(error.code as ErrorsEnum));
-				});
+			emailRef.current = email;
+			forgotPassword(email, setSent);
 		}
 	};
 
 	return (
 		<>
-			{/* Alerts */}
 			{error === ErrorsEnum.UserNotFoundError && <UserNotFoundAlert />}
 			{resendStatus && <LetterResendAlert />}
-			{/* /Alerts */}
 
 			{sent ? (
 				<Verification

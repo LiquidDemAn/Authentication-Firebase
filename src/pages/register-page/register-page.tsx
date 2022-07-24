@@ -1,13 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FirebaseError } from 'firebase/app';
 import { AuthForm } from '../../components/common/auth-form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import {
-	getAuth,
-	createUserWithEmailAndPassword,
-	sendEmailVerification,
-} from 'firebase/auth';
+import { auth } from '../../firebase';
 import { setError } from '../services/user.slice';
 import {
 	getAuthStatus,
@@ -23,9 +18,9 @@ import { VerificationEnum } from '../../components/common/verification/verificat
 import { LetterResendAlert } from '../../components/alerts/letter-resend-alert';
 import { EmailAlreadyUseAlert } from '../../components/alerts/email-already-use-alert';
 import { PageTitle } from '../../components/common/page-title';
+import { useAuthMethods } from '../../hooks/use-auth-methods';
 
 export const RegisterPage = () => {
-	const auth = getAuth();
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
@@ -33,6 +28,7 @@ export const RegisterPage = () => {
 	const user = useAppSelector(getUser);
 	const emailVerifiedStatus = useAppSelector(getEmailVerifiedStatus);
 	const [resendStatus, setResendStatus] = useState(false);
+	const { register, emailVerification } = useAuthMethods();
 
 	useEffect(() => {
 		if (isAuth === true && emailVerifiedStatus) {
@@ -42,41 +38,26 @@ export const RegisterPage = () => {
 
 	useEffect(() => {
 		return () => {
-			dispatch(setError(null));
+			if (error) {
+				dispatch(setError(null));
+			}
 		};
-	}, [dispatch]);
+	}, [dispatch, error]);
 
 	const onSubmit = (
-		event: React.FormEvent<HTMLButtonElement>,
+		event: FormEvent<HTMLButtonElement>,
 		email: string,
 		password: string
 	) => {
 		event.preventDefault();
-
-		createUserWithEmailAndPassword(auth, email, password)
-			.then(({ user }) => {
-				sendEmailVerification(user)
-					.then()
-					.catch((error: FirebaseError) => {
-						dispatch(setError(error.code as ErrorsEnum));
-					});
-			})
-			.catch((error: FirebaseError) => {
-				dispatch(setError(error.code as ErrorsEnum));
-			});
+		register(email, password);
 	};
 
 	const resendHandle = () => {
 		const currnetUser = auth.currentUser;
 
 		if (currnetUser) {
-			sendEmailVerification(currnetUser)
-				.then(() => {
-					setResendStatus(true);
-				})
-				.catch((error: FirebaseError) => {
-					dispatch(setError(error.code as ErrorsEnum));
-				});
+			emailVerification(currnetUser, setResendStatus);
 		}
 	};
 
