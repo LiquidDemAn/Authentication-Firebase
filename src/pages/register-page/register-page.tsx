@@ -3,11 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
 import { AuthForm } from '../../components/common/auth-form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import {
-	getAuth,
-	createUserWithEmailAndPassword,
-	sendEmailVerification,
-} from 'firebase/auth';
+import { getAuth, sendEmailVerification } from 'firebase/auth';
 import { setError } from '../services/user.slice';
 import {
 	getAuthStatus,
@@ -23,6 +19,7 @@ import { VerificationEnum } from '../../components/common/verification/verificat
 import { LetterResendAlert } from '../../components/alerts/letter-resend-alert';
 import { EmailAlreadyUseAlert } from '../../components/alerts/email-already-use-alert';
 import { PageTitle } from '../../components/common/page-title';
+import { useAuthMethods } from '../../hooks/use-auth-methods';
 
 export const RegisterPage = () => {
 	const auth = getAuth();
@@ -33,6 +30,7 @@ export const RegisterPage = () => {
 	const user = useAppSelector(getUser);
 	const emailVerifiedStatus = useAppSelector(getEmailVerifiedStatus);
 	const [resendStatus, setResendStatus] = useState(false);
+	const { register } = useAuthMethods();
 
 	useEffect(() => {
 		if (isAuth === true && emailVerifiedStatus) {
@@ -52,18 +50,7 @@ export const RegisterPage = () => {
 		password: string
 	) => {
 		event.preventDefault();
-
-		createUserWithEmailAndPassword(auth, email, password)
-			.then(({ user }) => {
-				sendEmailVerification(user)
-					.then()
-					.catch((error: FirebaseError) => {
-						dispatch(setError(error.code as ErrorsEnum));
-					});
-			})
-			.catch((error: FirebaseError) => {
-				dispatch(setError(error.code as ErrorsEnum));
-			});
+		register(email, password);
 	};
 
 	const resendHandle = () => {
