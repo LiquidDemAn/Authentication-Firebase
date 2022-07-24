@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FirebaseError } from 'firebase/app';
 import { AuthForm } from '../../components/common/auth-form';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { getAuth, sendEmailVerification } from 'firebase/auth';
+import { auth } from '../../firebase';
 import { setError } from '../services/user.slice';
 import {
 	getAuthStatus,
@@ -22,7 +21,6 @@ import { PageTitle } from '../../components/common/page-title';
 import { useAuthMethods } from '../../hooks/use-auth-methods';
 
 export const RegisterPage = () => {
-	const auth = getAuth();
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector(getError);
@@ -30,7 +28,7 @@ export const RegisterPage = () => {
 	const user = useAppSelector(getUser);
 	const emailVerifiedStatus = useAppSelector(getEmailVerifiedStatus);
 	const [resendStatus, setResendStatus] = useState(false);
-	const { register } = useAuthMethods();
+	const { register, emailVerification } = useAuthMethods();
 
 	useEffect(() => {
 		if (isAuth === true && emailVerifiedStatus) {
@@ -45,7 +43,7 @@ export const RegisterPage = () => {
 	}, [dispatch]);
 
 	const onSubmit = (
-		event: React.FormEvent<HTMLButtonElement>,
+		event: FormEvent<HTMLButtonElement>,
 		email: string,
 		password: string
 	) => {
@@ -57,13 +55,7 @@ export const RegisterPage = () => {
 		const currnetUser = auth.currentUser;
 
 		if (currnetUser) {
-			sendEmailVerification(currnetUser)
-				.then(() => {
-					setResendStatus(true);
-				})
-				.catch((error: FirebaseError) => {
-					dispatch(setError(error.code as ErrorsEnum));
-				});
+			emailVerification(currnetUser, setResendStatus);
 		}
 	};
 
